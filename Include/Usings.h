@@ -5,7 +5,7 @@ struct Point
 };
 
 template <typename T>
-std::vector<T> VectorShuffle(std::vector<T> v) 
+std::vector<T> VectorShuffle(std::vector<T> v)
 {
     for (int i = v.size() - 1; i > 0; --i)
     {
@@ -29,12 +29,14 @@ Color ImColorToSFML(const ImVec4 &color)
 std::vector<std::string> GetStrFilesFrom(std::string directory, std::string extension = "")
 {
     std::vector<std::string> files;
-    if(std::filesystem::exists(directory))
+    if (std::filesystem::exists(directory))
     {
-        for(const auto &entry : std::filesystem::directory_iterator(directory))   
+        for (const auto &entry : std::filesystem::directory_iterator(directory))
         {
-            if(!entry.is_regular_file()) continue;
-            if(entry.path().extension() != extension) continue;
+            if (!entry.is_regular_file())
+                continue;
+            if (entry.path().extension() != extension)
+                continue;
 
             files.push_back(entry.path().filename().string());
         }
@@ -42,4 +44,4 @@ std::vector<std::string> GetStrFilesFrom(std::string directory, std::string exte
     return files;
 }
 
-const std::vector<Vector2i> directions = { LEFT, DOWN, RIGHT, UP };
+const std::vector<Vector2i> directions = {LEFT, DOWN, RIGHT, UP};

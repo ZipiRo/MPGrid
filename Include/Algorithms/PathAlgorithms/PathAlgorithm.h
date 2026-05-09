@@ -15,9 +15,7 @@ struct PathAlgorithm
 
 struct PathAlgoithmEntry
 {
-    std::string abbr;
-    std::string name;
-    std::string desc;
+    std::string abbr, name, desc;
     std::function<std::unique_ptr<PathAlgorithm>()> Get;
 };
 

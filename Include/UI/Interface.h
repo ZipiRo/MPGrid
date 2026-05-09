@@ -3,10 +3,10 @@ class Interface
 private:
     float menubar_height = 18;
     float sidebar_window_width;
-    
+
     Vector2f settings_window_size;
     Vector2f settings_window_position;
-    
+
     Vector2f modules_bar_position;
 
 public:
@@ -31,7 +31,7 @@ public:
     {
         return settings_window_position;
     }
-    
+
     Vector2f GetSettingsWindowSize()
     {
         return settings_window_size;

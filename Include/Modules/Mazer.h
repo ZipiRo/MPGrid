@@ -29,12 +29,12 @@ private:
 
     AlgoState algorithm_state;
 
-    void SidebarInterface(ApplicationContext&) override;
-    void SettingsInterface(ApplicationContext&) override;
+    void SidebarInterface(ApplicationContext &) override;
+    void SettingsInterface(ApplicationContext &) override;
 
     void PlaceStart(Vector2i where, Grid &grid, GridColorTheme theme)
     {
-        if(!start.valid)
+        if (!start.valid)
         {
             start.position = where;
             start.valid = true;
@@ -45,7 +45,7 @@ private:
 
     void RemoveStart(Vector2i where, Grid &grid)
     {
-        if(where == start.position && start.valid)
+        if (where == start.position && start.valid)
         {
             start.valid = false;
             grid.SetCell(where.x, where.y, CELL_ROOM);
@@ -73,7 +73,8 @@ private:
 
     void Run(GridColorTheme theme)
     {
-        if(!start.valid) return;
+        if (!start.valid)
+            return;
         running_algorithm = true;
         start_timer = 0.0f;
 
@@ -89,14 +90,15 @@ private:
         return "Mazer";
     }
 
-    std::string GetSettingsTitle() override 
+    std::string GetSettingsTitle() override
     {
         return "Mazer Settings";
     }
 
     void AlgorithmUpdate(Grid &grid, float delta_time);
+
 public:
-    Mazer() 
+    Mazer()
     {
         pause_algorithm = false;
         using_algorithm = 0;
@@ -115,20 +117,20 @@ public:
     }
 
     void Update(ApplicationContext &context) override
-    {   
-        if(Input::IsKeyDown(Keyboard::Key::R))
+    {
+        if (Input::IsKeyDown(Keyboard::Key::R))
             Reset();
 
-        if(Input::IsKeyDown(Keyboard::Key::P))
+        if (Input::IsKeyDown(Keyboard::Key::P))
             pause_algorithm = !pause_algorithm;
 
-        if(reset_grid)
+        if (reset_grid)
         {
             context.grid.ClearColors();
             reset_grid = false;
         }
 
-        if(running_algorithm)
+        if (running_algorithm)
         {
             AlgorithmUpdate(context.grid, context.delta_time);
             return;
@@ -137,47 +139,49 @@ public:
         Vector2i mouse_position = Mouse::getPosition(context.window);
         Point cursor = context.grid_cursor.GetCursorPoint(mouse_position, context.grid_render);
 
-        if(Input::IsMouseButtonDown(Mouse::Button::Left) && cursor.valid)
+        if (Input::IsMouseButtonDown(Mouse::Button::Left) && cursor.valid)
             PlaceStart(cursor.position, context.grid, context.grid_render.GetColorTheme());
-        
-        if(Input::IsMouseButtonDown(Mouse::Button::Right) && cursor.valid)
+
+        if (Input::IsMouseButtonDown(Mouse::Button::Right) && cursor.valid)
             RemoveStart(cursor.position, context.grid);
 
-        if(Input::IsKeyDown(Keyboard::Key::T))
+        if (Input::IsKeyDown(Keyboard::Key::T))
             RandomStart(context.grid, context.grid_render.GetColorTheme());
 
-        if(Input::IsKeyDown(Keyboard::Key::F))
+        if (Input::IsKeyDown(Keyboard::Key::F))
         {
             context.grid.Fill(CELL_WALL);
             start.valid = false;
         }
 
-        if(Input::IsKeyDown(Keyboard::Key::C))
+        if (Input::IsKeyDown(Keyboard::Key::C))
         {
             context.grid.Fill(CELL_ROOM);
             start.valid = false;
         }
-     
-        if(Input::IsKeyDown(Keyboard::Key::Space))
+
+        if (Input::IsKeyDown(Keyboard::Key::Space))
             Run(context.grid_render.GetColorTheme());
-        
-        if(Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() > 0)
+
+        if (Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() > 0)
             using_algorithm = std::min((int)algorithms.size() - 1, using_algorithm + 1);
 
-        if(Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() < 0)
+        if (Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() < 0)
             using_algorithm = std::max(0, using_algorithm - 1);
     }
 };
 
 void Mazer::AlgorithmUpdate(Grid &grid, float delta_time)
 {
-    if(pause_algorithm) return;
+    if (pause_algorithm)
+        return;
 
     switch (algorithm_state)
     {
     case ALGO_INIT:
         start_timer += delta_time;
-        if(start_timer < start_algo_delay) return;
+        if (start_timer < start_algo_delay)
+            return;
 
         algorithm->Init(grid, start.position);
 
@@ -186,18 +190,19 @@ void Mazer::AlgorithmUpdate(Grid &grid, float delta_time)
         break;
     case ALGO_RUN:
         step_timer += delta_time;
-        if(step_timer < algo_step_delay) return;
+        if (step_timer < algo_step_delay)
+            return;
 
         no_step_algorithm ? algorithm->Direct(grid) : algorithm->Step(grid);
 
         SoundPlayer::Play(ResourceManager::Sounds.Get("Remove"));
 
-        if(algorithm->done)
+        if (algorithm->done)
             algorithm_state = ALGO_DONE;
 
         step_timer = 0.0f;
         break;
-    case ALGO_DONE: 
+    case ALGO_DONE:
         Reset();
         break;
     default:
@@ -205,118 +210,126 @@ void Mazer::AlgorithmUpdate(Grid &grid, float delta_time)
     }
 }
 
-void Mazer::SidebarInterface(ApplicationContext& context)
+void Mazer::SidebarInterface(ApplicationContext &context)
 {
     ImGui::BeginDisabled(context.interface.show_settings_window);
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if(ImGui::CollapsingHeader("Algorithms (Ctrl + Wheel)"))
+    if (ImGui::CollapsingHeader("Algorithms (Ctrl + Wheel)"))
     {
         ImGui::BeginDisabled(running_algorithm);
         float offset = 0;
-        for(int i = 0; i < algorithms.size(); i++)
+        for (int i = 0; i < algorithms.size(); i++)
         {
             ImVec2 text_size = ImGui::CalcTextSize(algorithms[i].abbr.c_str());
             float button_width = text_size.x + 20.0f;
 
-            if(offset + button_width > context.interface.GetSidebarWidth()) offset = 0;
-            else if(offset > 0) ImGui::SameLine();
+            if (offset + button_width > context.interface.GetSidebarWidth())
+                offset = 0;
+            else if (offset > 0)
+                ImGui::SameLine();
 
-            ImGui::PushStyleColor(ImGuiCol_Button, 
-            (using_algorithm == i) ? ImVec4(0.2f, 0.7f, 0.2f, 1.0f)
-                                    : ImGui::GetStyleColorVec4(ImGuiCol_Button));
+            ImGui::PushStyleColor(ImGuiCol_Button,
+                                  (using_algorithm == i) ? ImVec4(0.2f, 0.7f, 0.2f, 1.0f)
+                                                         : ImGui::GetStyleColorVec4(ImGuiCol_Button));
 
-            if(ImGui::Button(algorithms[i].abbr.c_str(), ImVec2(button_width, 0)))
+            if (ImGui::Button(algorithms[i].abbr.c_str(), ImVec2(button_width, 0)))
                 using_algorithm = i;
-            if(ImGui::IsItemHovered())
+            if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("Maze generator algorithm");
-            
+
             ImGui::PopStyleColor();
-            
-            offset += button_width + ImGui::GetStyle().ItemSpacing.x; 
+
+            offset += button_width + ImGui::GetStyle().ItemSpacing.x;
         }
         ImGui::EndDisabled();
     }
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if(ImGui::CollapsingHeader("Algorithm Settings"))
+    if (ImGui::CollapsingHeader("Algorithm Settings"))
     {
         ImGui::Text("Start Delay");
-        if(ImGui::Button("|##1")) start_algo_delay = 0;
+        if (ImGui::Button("|##1"))
+            start_algo_delay = 0;
         ImGui::SameLine();
         ImGui::SliderInt("##AlgoStartDelay", &start_algo_delay, 0, 5);
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Set the dealy to start the algorithm");
         ImGui::SameLine();
-        if(ImGui::Button("Default##1")) start_algo_delay = 3;
+        if (ImGui::Button("Default##1"))
+            start_algo_delay = 3;
 
         ImGui::Text("Step Delay");
-        if(ImGui::Button("|##2")) algo_step_delay = 0;
+        if (ImGui::Button("|##2"))
+            algo_step_delay = 0;
         ImGui::SameLine();
         ImGui::SliderFloat("##AlgoStepDelay", &algo_step_delay, 0.0f, 0.2f);
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("How fast the algorithm moves");
         ImGui::SameLine();
-        if(ImGui::Button("Default##2")) algo_step_delay = 0.05f;
+        if (ImGui::Button("Default##2"))
+            algo_step_delay = 0.05f;
     }
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if(ImGui::CollapsingHeader("Actions"))
+    if (ImGui::CollapsingHeader("Actions"))
     {
         ImGui::BeginDisabled(running_algorithm);
-        ImGui::PushStyleColor(ImGuiCol_Button, 
-        (running_algorithm) ? ImVec4(0.2f, 0.7f, 0.2f, 1.0f) : ImGui::GetStyleColorVec4(ImGuiCol_Button));
-        if(ImGui::Button("Start (Space)")) 
+        ImGui::PushStyleColor(ImGuiCol_Button,
+                              (running_algorithm) ? ImVec4(0.2f, 0.7f, 0.2f, 1.0f) : ImGui::GetStyleColorVec4(ImGuiCol_Button));
+        if (ImGui::Button("Start (Space)"))
             Run(context.grid_render.GetColorTheme());
         ImGui::PopStyleColor();
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Start the algorithm");
         ImGui::EndDisabled();
 
         ImGui::SameLine();
-        if(ImGui::Button("Reset (R)")) Reset();
-        if(ImGui::IsItemHovered())
+        if (ImGui::Button("Reset (R)"))
+            Reset();
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Reset the algorithm and clear colors");
 
         ImGui::SameLine();
         ImGui::PushStyleColor(ImGuiCol_Button, (pause_algorithm) ? ImVec4(0.2f, 0.7f, 0.2f, 1.0f) : ImVec4(0.7f, 0.2f, 0.0f, 1.0f));
-        if(ImGui::Button(pause_algorithm ? "Play (P)" : "Pause (P)"))
+        if (ImGui::Button(pause_algorithm ? "Play (P)" : "Pause (P)"))
             pause_algorithm = !pause_algorithm;
         ImGui::PopStyleColor();
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Pause the algorithm");
 
-        if(ImGui::Button("Fill (F)")) 
+        if (ImGui::Button("Fill (F)"))
         {
             context.grid.Fill(CELL_WALL);
             start.valid = false;
         }
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Fill grid with walls");
-        
+
         ImGui::SameLine();
-        if(ImGui::Button("Clear (C)")) 
+        if (ImGui::Button("Clear (C)"))
         {
             context.grid.Fill(CELL_ROOM);
             start.valid = false;
         }
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Clear walls from the grid");
 
         ImGui::BeginDisabled(running_algorithm);
-        if(ImGui::Button("Random Start (T)")) RandomStart(context.grid, context.grid_render.GetColorTheme());
+        if (ImGui::Button("Random Start (T)"))
+            RandomStart(context.grid, context.grid_render.GetColorTheme());
         ImGui::EndDisabled();
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Set random start positition");
-        
-        if(ImGui::Button("Settings (LShift)"))
+
+        if (ImGui::Button("Settings (LShift)"))
             context.interface.show_settings_window = true;
-        if(ImGui::IsItemHovered())
+        if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Show settings");
     }
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if(ImGui::CollapsingHeader("Algorithm Info"))
+    if (ImGui::CollapsingHeader("Algorithm Info"))
     {
         ImGui::Text(std::string("Name:\n" + algorithms[using_algorithm].name).c_str());
         ImGui::TextWrapped(std::string("Description:\n" + algorithms[using_algorithm].desc).c_str());
@@ -326,45 +339,47 @@ void Mazer::SidebarInterface(ApplicationContext& context)
     ImGui::EndDisabled();
 }
 
-void Mazer::SettingsInterface(ApplicationContext& context)
+void Mazer::SettingsInterface(ApplicationContext &context)
 {
     bool use_custom_theme = context.grid_render.IsCustomTheme();
-    if(ImGui::Checkbox("Custom colors", &use_custom_theme))
+    if (ImGui::Checkbox("Custom colors", &use_custom_theme))
     {
-        if(use_custom_theme) context.grid_render.UseCustomTheme();
-        else context.grid_render.UsePresetTheme();
+        if (use_custom_theme)
+            context.grid_render.UseCustomTheme();
+        else
+            context.grid_render.UsePresetTheme();
     }
 
     ImGui::SetNextItemOpen(use_custom_theme, ImGuiCond_Always);
-    if(ImGui::CollapsingHeader("Custom Theme"))
+    if (ImGui::CollapsingHeader("Custom Theme"))
     {
         GridColorTheme custom_theme = context.grid_render.GetColorTheme();
         ImVec4 imgui_color;
 
         bool changed_colors = false;
-            
+
         imgui_color = SFMLToImColor(custom_theme.colors[MazeStartColor]);
-        if(ImGui::ColorEdit4("Start Color", (float*)&imgui_color))
+        if (ImGui::ColorEdit4("Start Color", (float *)&imgui_color))
         {
             custom_theme.colors[MazeStartColor] = ImColorToSFML(imgui_color);
             changed_colors = true;
         }
-            
+
         imgui_color = SFMLToImColor(custom_theme.colors[MazePrimaryColor]);
-        if(ImGui::ColorEdit4("Primary Color", (float*)&imgui_color))
+        if (ImGui::ColorEdit4("Primary Color", (float *)&imgui_color))
         {
             custom_theme.colors[MazePrimaryColor] = ImColorToSFML(imgui_color);
             changed_colors = true;
         }
-            
+
         imgui_color = SFMLToImColor(custom_theme.colors[MazeSecondaryColor]);
-        if(ImGui::ColorEdit4("Secondary Color", (float*)&imgui_color))
+        if (ImGui::ColorEdit4("Secondary Color", (float *)&imgui_color))
         {
             custom_theme.colors[MazeSecondaryColor] = ImColorToSFML(imgui_color);
             changed_colors = true;
         }
 
-        if(changed_colors)
+        if (changed_colors)
         {
             context.grid_render.SetColorTheme(custom_theme);
         }

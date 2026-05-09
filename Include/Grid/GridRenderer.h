@@ -22,19 +22,19 @@ private:
     {
         int index = (position.y * size.x + position.x) * 6;
 
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
             grid_shape[index + i].color = color;
     }
 
     void SetLinesColor(Color color)
     {
-        for(int i = 0; i < grid_lines.getVertexCount(); i++)
+        for (int i = 0; i < grid_lines.getVertexCount(); i++)
             grid_lines[i].color = color;
     }
 
 public:
     const std::vector<GridColorTheme> grid_color_themes = GetGridColorThemes();
-    
+
     GridRenderer()
     {
         using_theme = 0;
@@ -77,15 +77,17 @@ public:
 
     void SetOffset(Vector2f offset)
     {
-        this->offset = Vector2f(offset.x / 2, offset.y / 2); 
+        this->offset = Vector2f(offset.x / 2, offset.y / 2);
     }
- 
+
     void UsePresetTheme(int index = -1)
     {
-        if(index == -1) index = using_theme;
-        if(index < 0 || index >= grid_color_themes.size()) return;
+        if (index == -1)
+            index = using_theme;
+        if (index < 0 || index >= grid_color_themes.size())
+            return;
         using_theme = index;
-        
+
         SetColorTheme(grid_color_themes[using_theme]);
         use_custom_theme = false;
     }
@@ -117,13 +119,13 @@ public:
 
     Point GetCellPoint(Vector2f from) const
     {
-        if(!(from.x >= GetOffsetPosition().x && from.y >= GetOffsetPosition().y &&
-            from.x < GetOffsetPosition().x + length.x && from.y < GetOffsetPosition().y + length.y))
-                return Point{.valid = false};
+        if (!(from.x >= GetOffsetPosition().x && from.y >= GetOffsetPosition().y &&
+              from.x < GetOffsetPosition().x + length.x && from.y < GetOffsetPosition().y + length.y))
+            return Point{.valid = false};
 
         Point point;
         point.position = Vector2i((from.x - GetOffsetPosition().x) / cell_size.x,
-                                    (from.y - GetOffsetPosition().y) / cell_size.y);
+                                  (from.y - GetOffsetPosition().y) / cell_size.y);
         point.valid = true;
 
         return point;
@@ -140,13 +142,13 @@ public:
 
         int index = 0;
 
-        for(int y = 0; y < size.y; y++)
+        for (int y = 0; y < size.y; y++)
         {
-            for(int x = 0; x < size.x; x++)
+            for (int x = 0; x < size.x; x++)
             {
                 Vector2f cell_pos(Vector2f(x * cell_size.x, y * cell_size.y));
 
-                Vertex* quad = &grid_shape[index * 6];
+                Vertex *quad = &grid_shape[index * 6];
 
                 quad[0].position = Vector2f(cell_pos);
                 quad[1].position = Vector2f(cell_pos.x + cell_size.x, cell_pos.y);
@@ -166,34 +168,34 @@ public:
                 index++;
             }
         }
-        
+
         grid_lines = VertexArray(PrimitiveType::Lines, (size.x + size.y + 2) * 2);
 
-        if(cell_size.x < 2.0f || cell_size.y < 2.0f) return;
-        
+        if (cell_size.x < 2.0f || cell_size.y < 2.0f)
+            return;
+
         index = 0;
 
-        for(int i = 0; i <= size.x; i++)
+        for (int i = 0; i <= size.x; i++)
         {
             float x = i * cell_size.x;
-            
-            Vertex* line = &grid_lines[index * 2];
+
+            Vertex *line = &grid_lines[index * 2];
 
             line[0].position = Vector2f(x, 0);
             line[1].position = Vector2f(x, cell_size.y * size.y);
 
             line[0].color = current_color_theme.colors[LinesColor];
             line[1].color = current_color_theme.colors[LinesColor];
-            
+
             index++;
         }
-        
 
-        for(int i = 0; i <= size.y; i++)
+        for (int i = 0; i <= size.y; i++)
         {
             float y = i * cell_size.y;
-            
-            Vertex* line = &grid_lines[index * 2];
+
+            Vertex *line = &grid_lines[index * 2];
 
             line[0].position = Vector2f(0, y);
             line[1].position = Vector2f(cell_size.x * size.x, y);
@@ -207,33 +209,39 @@ public:
 
     void Update(Grid &grid)
     {
-        for(int y = 0; y < grid.GetSize().y; y++)
+        for (int y = 0; y < grid.GetSize().y; y++)
         {
-            for(int x = 0; x < grid.GetSize().x; x++)
+            for (int x = 0; x < grid.GetSize().x; x++)
             {
-                if(!grid.Get(x, y).dirty && !refresh_shape_colors) continue;
+                if (!grid.Get(x, y).dirty && !refresh_shape_colors)
+                    continue;
                 Cell cell = grid.Get(x, y);
-            
-                if(cell.type == CELL_ROOM)
+
+                if (cell.type == CELL_ROOM)
                 {
-                    if(cell.color != Color::Magenta) SetCellColor(cell.position, cell.color);
-                    else SetCellColor(cell.position, current_color_theme.colors[RoomColor]);
+                    if (cell.color != Color::Magenta)
+                        SetCellColor(cell.position, cell.color);
+                    else
+                        SetCellColor(cell.position, current_color_theme.colors[RoomColor]);
                 }
-                else if(cell.type == CELL_WALL)
+                else if (cell.type == CELL_WALL)
                 {
-                    if(cell.color != Color::Magenta) SetCellColor(cell.position, cell.color);
-                    else SetCellColor(cell.position, current_color_theme.colors[WallColor]);
+                    if (cell.color != Color::Magenta)
+                        SetCellColor(cell.position, cell.color);
+                    else
+                        SetCellColor(cell.position, current_color_theme.colors[WallColor]);
                 }
-                else SetCellColor(cell.position, cell.color);
+                else
+                    SetCellColor(cell.position, cell.color);
 
                 cell.dirty = false;
             }
         }
 
-        if(refresh_shape_colors)
+        if (refresh_shape_colors)
             refresh_shape_colors = false;
 
-        if(refresh_lines_colors)
+        if (refresh_lines_colors)
         {
             SetLinesColor(current_color_theme.colors[LinesColor]);
             refresh_lines_colors = false;
@@ -247,7 +255,8 @@ public:
 
         window.draw(grid_shape, states);
 
-        if(cell_size.x < 2.0f || cell_size.y < 2.0f) return;
+        if (cell_size.x < 2.0f || cell_size.y < 2.0f)
+            return;
         window.draw(grid_lines, states);
     }
 };

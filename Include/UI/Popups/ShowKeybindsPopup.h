@@ -5,14 +5,14 @@ public:
     void Interface(ApplicationContext &context) override
     {
         ImGui::SetWindowSize(ImVec2(400, 400), ImGuiCond_Always);
-        
+
         if (ImGui::BeginTable("Keybinds", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg))
         {
             ImGui::TableSetupColumn("Key");
             ImGui::TableSetupColumn("Action");
             ImGui::TableHeadersRow();
 
-            auto Row = [](const char* key, const char* action)
+            auto Row = [](const char *key, const char *action)
             {
                 ImGui::TableNextRow();
 
@@ -42,9 +42,9 @@ public:
 
             ImGui::EndTable();
         }
-    }  
+    }
 
-    std::string GetName() override 
+    std::string GetName() override
     {
         return "Keybinds";
     }

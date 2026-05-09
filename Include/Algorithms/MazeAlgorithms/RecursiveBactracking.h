@@ -8,14 +8,16 @@ private:
     std::vector<Vector2i> GetNeighbors(const Grid &grid, const Vector2i &current)
     {
         std::vector<Vector2i> neighbors;
-        for(const auto& direction : directions)
+        for (const auto &direction : directions)
         {
             Vector2i neighbor = current + direction * 2;
 
-            if(neighbor.x < 0 || neighbor.y < 0 || neighbor.x >= grid.GetSize().x || neighbor.y >= grid.GetSize().y) continue;
-            if(grid.Get(neighbor.x, neighbor.y).type != CELL_WALL) continue;
+            if (neighbor.x < 0 || neighbor.y < 0 || neighbor.x >= grid.GetSize().x || neighbor.y >= grid.GetSize().y)
+                continue;
+            if (grid.Get(neighbor.x, neighbor.y).type != CELL_WALL)
+                continue;
 
-            if(!visited[neighbor.y][neighbor.x])
+            if (!visited[neighbor.y][neighbor.x])
                 neighbors.push_back(neighbor);
         }
 
@@ -30,20 +32,20 @@ public:
 
     RB() {}
 
-    void Init(const Grid& grid, Vector2i start) override
+    void Init(const Grid &grid, Vector2i start) override
     {
         this->start = start;
         done = false;
 
         visited = std::vector<std::vector<bool>>(grid.GetSize().y, std::vector<bool>(grid.GetSize().x));
-        
+
         stack.push(start);
         visited[start.y][start.x] = true;
     }
 
-    void Step(Grid& grid) override
+    void Step(Grid &grid) override
     {
-        if(stack.empty())
+        if (stack.empty())
         {
             done = true;
             return;
@@ -53,7 +55,7 @@ public:
 
         std::vector<Vector2i> neighbors = GetNeighbors(grid, current);
 
-        if(!neighbors.empty())
+        if (!neighbors.empty())
         {
             Vector2i next = neighbors[rand() % neighbors.size()];
             Vector2i direction = (next - current) / 2;

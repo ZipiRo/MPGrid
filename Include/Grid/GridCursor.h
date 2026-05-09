@@ -5,10 +5,10 @@ private:
     RectangleShape cursor_shape;
 
     float cursor_outline_thickness;
-public:
 
+public:
     GridCursor() {}
-    
+
     void Init(Vector2f cell_size)
     {
         cursor_outline_thickness = 2.0f;
@@ -36,11 +36,11 @@ public:
         Vector2f grid_position = grid_render.GetOffsetPosition();
         Vector2f cell_size = grid_render.GetCellSize();
 
-        if(cursor.valid)
+        if (cursor.valid)
         {
             cursor_shape.setOutlineColor(grid_render.GetColorTheme().colors[CursorColor]);
-            cursor_shape.setPosition(Vector2f(grid_position.x + cursor.position.x * cell_size.x, 
-                                        grid_position.y + cursor.position.y * cell_size.y));
+            cursor_shape.setPosition(Vector2f(grid_position.x + cursor.position.x * cell_size.x,
+                                              grid_position.y + cursor.position.y * cell_size.y));
 
             window.draw(cursor_shape);
             cursor.valid = false;

@@ -49,7 +49,7 @@ class App : public Application
 private:
     void ChangeModule(int index)
     {
-        if(index < 0 || index >= GetModules().size())    
+        if (index < 0 || index >= GetModules().size())
             return;
 
         change_module = true;
@@ -58,17 +58,18 @@ private:
 
     void CheckModuleChange()
     {
-        if(!change_module) return;
+        if (!change_module)
+            return;
 
         module = GetModules()[using_module].Get();
         module->Init(context);
-        
+
         context.using_module = using_module;
         change_module = false;
     }
 
 public:
-    App() : Application(sf::Vector2u(1600, 900), "MPGrid") 
+    App() : Application(sf::Vector2u(1600, 900), "MPGrid")
     {
         window.setFramerateLimit(999999);
     }
@@ -82,15 +83,14 @@ public:
     bool change_module = false;
     int using_module = 0;
 
-
-    ApplicationContext context { 
-        .window = window, 
-        .grid = grid, 
-        .grid_render = grid_render, 
-        .grid_cursor = grid_cursor, 
+    ApplicationContext context{
+        .window = window,
+        .grid = grid,
+        .grid_render = grid_render,
+        .grid_cursor = grid_cursor,
         .interface = interface,
-        .SetModule = [this](int index) { ChangeModule(index); }
-    };
+        .SetModule = [this](int index)
+        { ChangeModule(index); }};
 
     InterfaceManager ui_manager;
 
@@ -103,38 +103,45 @@ public:
 
 bool LoadResources()
 {
-    if(!ResourceManager::LoadSound("Place", "Resources/Audio/place.wav")) return false;
-    if(!ResourceManager::LoadSound("Pop", "Resources/Audio/pop.wav")) return false;
-    if(!ResourceManager::LoadSound("Find", "Resources/Audio/find.wav")) return false;
-    if(!ResourceManager::LoadSound("Remove", "Resources/Audio/remove.wav")) return false;
+    if (!ResourceManager::LoadSound("Place", "Resources/Audio/place.wav"))
+        return false;
+    if (!ResourceManager::LoadSound("Pop", "Resources/Audio/pop.wav"))
+        return false;
+    if (!ResourceManager::LoadSound("Find", "Resources/Audio/find.wav"))
+        return false;
+    if (!ResourceManager::LoadSound("Remove", "Resources/Audio/remove.wav"))
+        return false;
 
-    if(!ResourceManager::LoadTexture("Map", "Resources/Textures/map.png")) return false;
-    if(!ResourceManager::LoadTexture("Path", "Resources/Textures/path.png")) return false;
-    if(!ResourceManager::LoadTexture("Maze", "Resources/Textures/maze.png")) return false;
+    if (!ResourceManager::LoadTexture("Map", "Resources/Textures/map.png"))
+        return false;
+    if (!ResourceManager::LoadTexture("Path", "Resources/Textures/path.png"))
+        return false;
+    if (!ResourceManager::LoadTexture("Maze", "Resources/Textures/maze.png"))
+        return false;
 
     return true;
 }
 
 void App::Start()
 {
-    if(!ImGui::SFML::Init(window)) 
+    if (!ImGui::SFML::Init(window))
     {
         window.close();
         return;
     }
 
-    if(!LoadResources())
+    if (!LoadResources())
     {
         window.close();
         return;
-    } 
-    
+    }
+
     srand(time(0));
     background = Color::Black;
 
     grid.Create(20, 20);
     grid_render.SetMaxLength(Vector2f(window.getSize().y - 70, window.getSize().y - 70));
-    grid_render.Build(grid.GetSize()); 
+    grid_render.Build(grid.GetSize());
     grid_render.SetPosition(Vector2f(window.getSize().x / 2 - grid_render.GetLength().x / 2, window.getSize().y / 2 - grid_render.GetLength().y / 2));
     grid_cursor.Init(grid_render.GetCellSize());
 
@@ -175,4 +182,4 @@ void App::DrawCanvas()
 void App::End()
 {
     ImGui::SFML::Shutdown();
-} 
+}

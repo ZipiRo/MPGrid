@@ -4,21 +4,20 @@ class InterfaceManager
 {
 private:
     Vector2f grid_offset;
-    
+
     std::unique_ptr<Popup> popup;
 
-    void Menubar(ApplicationContext&);
-    void Bottombar(ApplicationContext&);
-    void Modulesbar(ApplicationContext&);
+    void Menubar(ApplicationContext &);
+    void Bottombar(ApplicationContext &);
+    void Modulesbar(ApplicationContext &);
 
-    void SidebarWindowBase(std::string title, ApplicationContext &context, std::function<void(ApplicationContext&)> Interface)
+    void SidebarWindowBase(std::string title, ApplicationContext &context, std::function<void(ApplicationContext &)> Interface)
     {
         Vector2u window_size = context.window.getSize();
 
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoMove |
-                                ImGuiWindowFlags_NoResize |
-                                ImGuiWindowFlags_NoCollapse;
-        
+                                 ImGuiWindowFlags_NoResize |
+                                 ImGuiWindowFlags_NoCollapse;
 
         ImGui::SetNextWindowPos(ImVec2(window_size.x - context.interface.GetSidebarWidth(), context.interface.GetMenubarHeight()), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(context.interface.GetSidebarWidth(), window_size.y - context.interface.GetMenubarHeight() * 2), ImGuiCond_Always);
@@ -29,10 +28,10 @@ private:
 
         ImGui::End();
     }
-    
-    void SettingsWindowBase(std::string title, ApplicationContext &context, std::function<void(ApplicationContext&)> Interface)
+
+    void SettingsWindowBase(std::string title, ApplicationContext &context, std::function<void(ApplicationContext &)> Interface)
     {
-        if(ImGui::IsKeyDown(ImGuiKey::ImGuiKey_Escape))
+        if (ImGui::IsKeyDown(ImGuiKey::ImGuiKey_Escape))
         {
             context.interface.show_settings_window = false;
             return;
@@ -41,8 +40,8 @@ private:
         Vector2u window_size = context.window.getSize();
 
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoMove |
-                                ImGuiWindowFlags_NoResize |
-                                ImGuiWindowFlags_NoCollapse;
+                                 ImGuiWindowFlags_NoResize |
+                                 ImGuiWindowFlags_NoCollapse;
 
         ImGui::SetNextWindowPos(ImVec2(context.interface.GetSettingsWindowPosition().x, context.interface.GetSettingsWindowPosition().y), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(context.interface.GetSettingsWindowSize().x, context.interface.GetSettingsWindowSize().y), ImGuiCond_Always);
@@ -57,9 +56,9 @@ private:
     void PopupBase(Popup &popup, ApplicationContext &context)
     {
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize |
-                                ImGuiWindowFlags_NoCollapse;
+                                 ImGuiWindowFlags_NoCollapse;
 
-        if(ImGui::IsKeyDown(ImGuiKey_Escape))
+        if (ImGui::IsKeyDown(ImGuiKey_Escape))
         {
             popup.open = false;
             return;
@@ -72,7 +71,7 @@ private:
 
         ImGui::End();
     }
-    
+
     template <typename T>
     void OpenPopup(ApplicationContext &context)
     {
@@ -82,63 +81,67 @@ private:
 
     bool ShowPopup(ApplicationContext &context)
     {
-        if(!popup) return false;
+        if (!popup)
+            return false;
 
-        if(popup->open)
+        if (popup->open)
         {
             PopupBase(*popup, context);
             return true;
         }
-        else popup = nullptr;
+        else
+            popup = nullptr;
 
         return false;
     }
 
     void UpdateToolUI(ApplicationContext &context, Module &active)
     {
-        if(Input::IsKeyDown(Keyboard::Key::Tab))
+        if (Input::IsKeyDown(Keyboard::Key::Tab))
             context.interface.show_sidebar_window = !context.interface.show_sidebar_window;
-            
-        if(Input::IsKeyDown(Keyboard::Key::LShift))
+
+        if (Input::IsKeyDown(Keyboard::Key::LShift))
             context.interface.show_settings_window = !context.interface.show_settings_window;
 
         Modulesbar(context);
 
-        if(context.interface.show_sidebar_window) 
+        if (context.interface.show_sidebar_window)
         {
-            SidebarWindowBase(active.GetSidebarTitle(), context, [&](ApplicationContext&){return active.SidebarInterface(context);});
+            SidebarWindowBase(active.GetSidebarTitle(), context, [&](ApplicationContext &)
+                              { return active.SidebarInterface(context); });
             grid_offset.x = -context.interface.GetSidebarWidth();
         }
 
-        if(context.interface.show_settings_window) 
-            SettingsWindowBase(active.GetSettingsTitle(), context, [&](ApplicationContext&){return active.SettingsInterface(context);});
+        if (context.interface.show_settings_window)
+            SettingsWindowBase(active.GetSettingsTitle(), context, [&](ApplicationContext &)
+                               { return active.SettingsInterface(context); });
     }
 
 public:
     void Update(ApplicationContext &context, Module &active)
     {
-        context.interface.popup_open = ShowPopup(context); 
+        context.interface.popup_open = ShowPopup(context);
 
-        if(context.interface.popup_open)
+        if (context.interface.popup_open)
         {
             context.grid_render.SetOffset(Vector2f(0, 0));
             return;
         }
 
-        if(Input::IsKeyDown(Keyboard::Key::H))
+        if (Input::IsKeyDown(Keyboard::Key::H))
             context.interface.hide_interface = !context.interface.hide_interface;
 
         grid_offset = Vector2f(0, 0);
 
-        if(context.interface.hide_interface)
+        if (context.interface.hide_interface)
         {
             context.grid_render.SetOffset(Vector2f(0, 0));
             return;
         }
-        
+
         Menubar(context);
         Bottombar(context);
-        
+
         grid_offset.y = 0;
 
         UpdateToolUI(context, active);

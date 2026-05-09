@@ -2,12 +2,12 @@ void InterfaceManager::Menubar(ApplicationContext &context)
 {
     ImGui::BeginMainMenuBar();
 
-    if(ImGui::BeginMenu("Grid"))
-    {   
-        if(ImGui::MenuItem("Themes"))
+    if (ImGui::BeginMenu("Grid"))
+    {
+        if (ImGui::MenuItem("Themes"))
             OpenPopup<GridColorThemesPopup>(context);
 
-        if(ImGui::MenuItem("Resize"))
+        if (ImGui::MenuItem("Resize"))
             OpenPopup<ResizeGridPopup>(context);
 
         if (ImGui::MenuItem("Save"))
@@ -19,17 +19,17 @@ void InterfaceManager::Menubar(ApplicationContext &context)
         ImGui::EndMenu();
     }
 
-    if(ImGui::BeginMenu("View"))
+    if (ImGui::BeginMenu("View"))
     {
-        if(ImGui::MenuItem("SetBackgroundColor"))
+        if (ImGui::MenuItem("SetBackgroundColor"))
             OpenPopup<SetBackgroundPopup>(context);
 
         ImGui::EndMenu();
     }
 
-    if(ImGui::BeginMenu("Help"))
+    if (ImGui::BeginMenu("Help"))
     {
-        if(ImGui::MenuItem("Keybinds"))
+        if (ImGui::MenuItem("Keybinds"))
             OpenPopup<ShowKeybindsPopup>(context);
 
         ImGui::EndMenu();

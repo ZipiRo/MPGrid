@@ -6,7 +6,7 @@ namespace BottombarInterface
     void FPS(ApplicationContext &context)
     {
         fps_timer += context.delta_time;
-        if(fps_timer >= 1.0f) 
+        if (fps_timer >= 1.0f)
         {
             current_fps = 1.0f / context.delta_time;
             fps_timer = 0.0f;
@@ -19,9 +19,9 @@ namespace BottombarInterface
 void InterfaceManager::Bottombar(ApplicationContext &context)
 {
     ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse |
-                            ImGuiWindowFlags_NoMove | 
-                            ImGuiWindowFlags_NoResize |
-                            ImGuiWindowFlags_NoTitleBar;
+                             ImGuiWindowFlags_NoMove |
+                             ImGuiWindowFlags_NoResize |
+                             ImGuiWindowFlags_NoTitleBar;
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 2));
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImGui::GetStyle().Colors[ImGuiCol_MenuBarBg]);

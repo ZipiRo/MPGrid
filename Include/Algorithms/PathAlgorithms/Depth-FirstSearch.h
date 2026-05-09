@@ -17,7 +17,7 @@ public:
     {
         this->start = start;
         this->end = end;
-        
+
         done = false;
         path_found = false;
 
@@ -30,7 +30,7 @@ public:
 
     void Step(Grid &grid) override
     {
-        if(stack.empty())
+        if (stack.empty())
         {
             done = true;
             return;
@@ -41,20 +41,21 @@ public:
 
         grid.SetCell(current.x, current.y, CELL_NONE, explored_color);
 
-        if(current == end)
+        if (current == end)
         {
             path_found = true;
             return;
         }
 
         bool moved = false;
-        for(const auto &direction : directions)
+        for (const auto &direction : directions)
         {
             Vector2i next = current + direction;
 
-            if(next.x < 0 || next.y < 0 || next.x >= grid.GetSize().x || next.y >= grid.GetSize().y) continue;
+            if (next.x < 0 || next.y < 0 || next.x >= grid.GetSize().x || next.y >= grid.GetSize().y)
+                continue;
 
-            if(grid.Get(next.x, next.y).type != CELL_WALL && !visited[next.y][next.x])
+            if (grid.Get(next.x, next.y).type != CELL_WALL && !visited[next.y][next.x])
             {
                 grid.SetCell(next.x, next.y, CELL_NONE, frontier_color);
                 parent[next.y][next.x] = current;
@@ -68,8 +69,8 @@ public:
                 break;
             }
         }
-        
-        if(!moved)
+
+        if (!moved)
             grid.SetCell(current.x, current.y, CELL_NONE, backtrack_color);
     }
 
@@ -81,10 +82,11 @@ public:
         while (current != start)
         {
             current = parent[current.y][current.x];
-            if(current == start) break;
+            if (current == start)
+                break;
             path.push_back(current);
         }
-        
+
         std::reverse(path.begin(), path.end());
         return path;
     }
@@ -93,4 +95,3 @@ public:
 std::string DFS::abbr = "DFS";
 std::string DFS::name = "Depth-First Search";
 std::string DFS::desc = "Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along one branch before backtracking.";
- 

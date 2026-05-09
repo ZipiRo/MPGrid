@@ -12,10 +12,7 @@ struct MazeAlgorithm
 
 struct MazeAlgorithmEntry
 {
-    std::string abbr;
-    std::string name;
-    std::string desc;
-    std::string rules;
+    std::string abbr, name, desc, rules;
     std::function<std::unique_ptr<MazeAlgorithm>()> Get;
 };
 

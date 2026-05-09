@@ -7,16 +7,16 @@ public:
         ImGui::SetWindowSize(ImVec2(300, 500));
 
         ImGui::SetNextItemWidth(-1);
-        if(ImGui::BeginCombo("##Themes", context.grid_render.GetColorTheme().name.c_str()))
+        if (ImGui::BeginCombo("##Themes", context.grid_render.GetColorTheme().name.c_str()))
         {
-            for(int i = 0; i < context.grid_render.grid_color_themes.size(); i++)
+            for (int i = 0; i < context.grid_render.grid_color_themes.size(); i++)
             {
                 bool is_selected = false;
 
-                if(ImGui::Selectable(context.grid_render.grid_color_themes[i].name.c_str(), is_selected))
+                if (ImGui::Selectable(context.grid_render.grid_color_themes[i].name.c_str(), is_selected))
                     context.grid_render.UsePresetTheme(i);
 
-                if(is_selected)
+                if (is_selected)
                     ImGui::SetItemDefaultFocus();
             }
 
@@ -24,9 +24,9 @@ public:
         }
 
         GridColorTheme grid_current_theme = context.grid_render.GetColorTheme();
-        
+
         ImVec4 imgui_color;
-        for(auto &[name, color] : grid_current_theme.colors)
+        for (auto &[name, color] : grid_current_theme.colors)
         {
             imgui_color = SFMLToImColor(color);
             ImGui::ColorButton(std::string("##" + name).c_str(), imgui_color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
@@ -35,7 +35,7 @@ public:
         }
     }
 
-    std::string GetName() override 
+    std::string GetName() override
     {
         return "Grid Color Themes";
     }
