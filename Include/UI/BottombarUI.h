@@ -3,7 +3,7 @@ namespace BottombarInterface
     int current_fps = 0;
     float fps_timer = 1.0f;
 
-    void FPS(ApplicationContext &context)
+    void ShowFPS(ApplicationContext &context)
     {
         fps_timer += context.delta_time;
         if (fps_timer >= 1.0f)
@@ -29,7 +29,7 @@ void InterfaceManager::Bottombar(ApplicationContext &context)
     ImGui::SetNextWindowSize(ImVec2(context.window.getSize().x, context.interface.GetMenubarHeight()), ImGuiCond_Always);
     ImGui::Begin("##Bottombar", nullptr, flags);
 
-    BottombarInterface::FPS(context);
+    BottombarInterface::ShowFPS(context);
 
     ImGui::End();
     ImGui::PopStyleVar();
