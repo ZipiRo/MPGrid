@@ -146,10 +146,10 @@ void App::Events(const sf::Event &event)
 
 void App::Update(float delta_time)
 {
+    ImGui::SFML::Update(window, seconds(delta_time));
+ 
     context.delta_time = delta_time;
     context.using_module = using_module;
-
-    ImGui::SFML::Update(window, seconds(delta_time));
 
     UIManager.Update(context, *modules[using_module]);
 
