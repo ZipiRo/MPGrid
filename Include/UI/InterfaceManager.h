@@ -148,5 +148,5 @@ public:
 };
 
 #include "Interfaces/MenubarInterface.h"
-#include "Interfaces/BottombarUI.h"
-#include "Interfaces/ModulesbarUI.h"
+#include "Interfaces/BottombarInterface.h"
+#include "Interfaces/ModulesbarInterface.h"
