@@ -47,16 +47,30 @@ struct ApplicationContext
 class App : public Application
 {
 private:
-    void SetModule(int module)
+    void ChangeModule(int index)
     {
-        using_module = module; 
-        init_module = true;
+        if(index < 0 || index >= GetModules().size())    
+            return;
+
+        change_module = true;
+        using_module = index;
+    }
+
+    void CheckModuleChange()
+    {
+        if(!change_module) return;
+
+        module = GetModules()[using_module].Get();
+        module->Init(context);
+        
+        context.using_module = using_module;
+        change_module = false;
     }
 
 public:
     App() : Application(sf::Vector2u(1600, 900), "MPGrid") 
     {
-        window.setFramerateLimit(60);
+        window.setFramerateLimit(999999);
     }
 
     Grid grid;
@@ -64,9 +78,10 @@ public:
     GridCursor grid_cursor;
     Interface interface;
 
-    std::vector<Module*> modules;
+    std::unique_ptr<Module> module;
+    bool change_module = false;
     int using_module = 0;
-    bool init_module = false;
+
 
     ApplicationContext context { 
         .window = window, 
@@ -74,14 +89,10 @@ public:
         .grid_render = grid_render, 
         .grid_cursor = grid_cursor, 
         .interface = interface,
-        .SetModule = [this](int module)
-        {
-            using_module = module;
-            init_module = true;
-        }
+        .SetModule = [this](int index) { ChangeModule(index); }
     };
 
-    InterfaceManager UIManager;
+    InterfaceManager ui_manager;
 
     void Start() override;
     void End() override;
@@ -119,7 +130,6 @@ void App::Start()
     } 
     
     srand(time(0));
-    window.setFramerateLimit(99999);
     background = Color::Black;
 
     grid.Create(20, 20);
@@ -128,15 +138,11 @@ void App::Start()
     grid_render.SetPosition(Vector2f(window.getSize().x / 2 - grid_render.GetLength().x / 2, window.getSize().y / 2 - grid_render.GetLength().y / 2));
     grid_cursor.Init(grid_render.GetCellSize());
 
-    modules.push_back(new Topo());
-    modules.push_back(new Pathfinder());
-    modules.push_back(new Mazer());
-
-    modules[using_module]->Start(context);
-
     interface.SetSettingsWindow(Vector2f(100, 100), Vector2f(window.getSize().x * 0.4f, window.getSize().y * 0.5f));
-    interface.SetModulesBar(Vector2f(10, 30), Vector2f(57.5f, 145));
+    interface.SetModulesbar(Vector2f(10, 30));
     interface.SetSidebarWindow(window.getSize().x * 0.2f);
+
+    ChangeModule(using_module);
 }
 
 void App::Events(const sf::Event &event)
@@ -147,26 +153,13 @@ void App::Events(const sf::Event &event)
 void App::Update(float delta_time)
 {
     ImGui::SFML::Update(window, seconds(delta_time));
- 
     context.delta_time = delta_time;
-    context.using_module = using_module;
 
-    UIManager.Update(context, *modules[using_module]);
+    CheckModuleChange();
 
-    if(!(interface.show_settings_window || interface.popup_open))
-    {
-        if(Input::IsKeyDown(Keyboard::Key::Num1)) SetModule(0);
-        else if(Input::IsKeyDown(Keyboard::Key::Num2)) SetModule(1);
-        else if(Input::IsKeyDown(Keyboard::Key::Num3)) SetModule(2);
+    ui_manager.Update(context, *module);
 
-        if(init_module)
-        {
-            modules[using_module]->Init(context);
-            init_module = false;
-        }
-
-        modules[using_module]->Update(context);
-    }
+    module->Update(context);
 
     grid_render.Update(grid);
 }
@@ -175,7 +168,7 @@ void App::DrawCanvas()
 {
     grid_render.Draw(window);
     grid_cursor.Draw(window, grid_render);
-    modules[using_module]->Draw(context);
+    module->Draw(context);
 
     ImGui::SFML::Render(window);
 }

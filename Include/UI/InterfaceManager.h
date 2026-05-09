@@ -102,8 +102,7 @@ private:
         if(Input::IsKeyDown(Keyboard::Key::LShift))
             context.interface.show_settings_window = !context.interface.show_settings_window;
 
-        if(context.interface.show_modules_bar)
-            Modulesbar(context);
+        Modulesbar(context);
 
         if(context.interface.show_sidebar_window) 
         {

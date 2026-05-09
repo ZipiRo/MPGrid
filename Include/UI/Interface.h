@@ -7,7 +7,6 @@ private:
     Vector2f settings_window_size;
     Vector2f settings_window_position;
     
-    Vector2f modules_bar_size;
     Vector2f modules_bar_position;
 
 public:
@@ -16,7 +15,6 @@ public:
 
     bool show_sidebar_window = true;
     bool show_settings_window = false;
-    bool show_modules_bar = true;
 
     void SetSettingsWindow(Vector2f position, Vector2f size)
     {
@@ -24,10 +22,9 @@ public:
         settings_window_size = size;
     }
 
-    void SetModulesBar(Vector2f position, Vector2f size)
+    void SetModulesbar(Vector2f position)
     {
         modules_bar_position = position;
-        modules_bar_size = size;
     }
 
     Vector2f GetSettingsWindowPosition()
@@ -43,11 +40,6 @@ public:
     Vector2f GetModulesbarPosition()
     {
         return modules_bar_position;
-    }
-    
-    Vector2f GetModulesbarSize()
-    {
-        return modules_bar_size;
     }
 
     void SetSidebarWindow(float width)
