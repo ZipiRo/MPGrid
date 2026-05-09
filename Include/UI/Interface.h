@@ -12,18 +12,11 @@ private:
 
 public:
     bool hide_interface = false;
-    bool show_popup = false;
+    bool popup_open = false;
 
     bool show_sidebar_window = true;
     bool show_settings_window = false;
     bool show_modules_bar = true;
-
-    bool load_grid_popup = false;
-    bool save_grid_popup = false;
-    bool resize_grid_popup = false;
-    bool themes_grid_popup = false;
-    bool set_background_popup = false;
-    bool show_keybinds_popup = false;
 
     void SetSettingsWindow(Vector2f position, Vector2f size)
     {

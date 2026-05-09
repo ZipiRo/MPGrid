@@ -1,3 +1,4 @@
 /.picsfml_config
 /.vscode
 /Build
+*.o

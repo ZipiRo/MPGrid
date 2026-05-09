@@ -1,9 +1,11 @@
-#include "Interfaces/PopupUI.h"
+#include "Popups/Popup.h"
 
 class InterfaceManager
 {
 private:
     Vector2f grid_offset;
+    
+    std::unique_ptr<Popup> popup;
 
     void Menubar(ApplicationContext&);
     void Bottombar(ApplicationContext&);
@@ -52,106 +54,42 @@ private:
         ImGui::End();
     }
 
-    void CenteredPopUpBase(std::string title, bool &open, ApplicationContext &context, std::function<void(ApplicationContext&)> Interface)
+    void PopupBase(Popup &popup, ApplicationContext &context)
     {
-        ImGuiWindowFlags flags = ImGuiWindowFlags_NoMove |
-                                ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize |
                                 ImGuiWindowFlags_NoCollapse;
-        
 
         if(ImGui::IsKeyDown(ImGuiKey_Escape))
         {
-            open = false;
+            popup.open = false;
             return;
         }
 
         ImGui::SetNextWindowPos(ImVec2(context.window.getSize().x / 2, context.window.getSize().y / 2), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-        ImGui::Begin(title.c_str(), &open, flags);
+        ImGui::Begin(popup.GetName().c_str(), &popup.open, flags);
 
-        Interface(context);
+        popup.Interface(context);
 
         ImGui::End();
     }
     
-    bool UpdatePopUpUI(ApplicationContext &context)
+    template <typename T>
+    void OpenPopup(ApplicationContext &context)
     {
-        if(context.interface.save_grid_popup)
-        {
-            CenteredPopUpBase
-            (
-                "Save Grid",
-                context.interface.save_grid_popup, 
-                context, 
-                [&](ApplicationContext&) {return PopupInterface::SaveGrid(context);}
-            );
+        popup = std::make_unique<T>();
+        popup->Init(context);
+    }
 
+    bool ShowPopup(ApplicationContext &context)
+    {
+        if(!popup) return false;
+
+        if(popup->open)
+        {
+            PopupBase(*popup, context);
             return true;
         }
-
-        if(context.interface.load_grid_popup)
-        {
-            CenteredPopUpBase
-            (
-                "Load Grid",
-                context.interface.load_grid_popup, 
-                context, 
-                [&](ApplicationContext&) {return PopupInterface::LoadGrid(context);}
-            );
-
-            return true;
-        }
-        
-        if(context.interface.resize_grid_popup)
-        {
-            CenteredPopUpBase
-            (
-                "Resize Grid",
-                context.interface.resize_grid_popup, 
-                context, 
-                [&](ApplicationContext&) {return PopupInterface::ResizeGrid(context);}
-            );
-
-            return true;
-        }
-        
-        if(context.interface.themes_grid_popup)
-        {
-            CenteredPopUpBase
-            (
-                "Grid Themes",
-                context.interface.themes_grid_popup, 
-                context, 
-                [&](ApplicationContext&) {return PopupInterface::GridColorThemes(context);}
-            );
-
-            return true;
-        }
-        
-        if(context.interface.set_background_popup)
-        {
-            CenteredPopUpBase
-            (
-                "Set Background Color",
-                context.interface.set_background_popup, 
-                context, 
-                [&](ApplicationContext&) {return PopupInterface::SetBackgroundColor(context);}
-            );
-
-            return true;
-        }
-        
-        if(context.interface.show_keybinds_popup)
-        {
-            CenteredPopUpBase
-            (
-                "Keybinds",
-                context.interface.show_keybinds_popup, 
-                context, 
-                [&](ApplicationContext&) {return PopupInterface::ShowKeybinds(context);}
-            );
-
-            return true;
-        }
+        else popup = nullptr;
 
         return false;
     }
@@ -180,9 +118,9 @@ private:
 public:
     void Update(ApplicationContext &context, Module &active)
     {
-        context.interface.show_popup = UpdatePopUpUI(context);
+        context.interface.popup_open = ShowPopup(context); 
 
-        if(context.interface.show_popup)
+        if(context.interface.popup_open)
         {
             context.grid_render.SetOffset(Vector2f(0, 0));
             return;
@@ -209,6 +147,6 @@ public:
     }
 };
 
-#include "Interfaces/MenubarUI.h"
+#include "Interfaces/MenubarInterface.h"
 #include "Interfaces/BottombarUI.h"
 #include "Interfaces/ModulesbarUI.h"

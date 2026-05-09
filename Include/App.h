@@ -92,14 +92,14 @@ public:
 
 bool LoadResources()
 {
-    if(!ResourceManager::LoadSound("Place", "Resources/place.wav")) return false;
-    if(!ResourceManager::LoadSound("Pop", "Resources/pop.wav")) return false;
-    if(!ResourceManager::LoadSound("Find", "Resources/find.wav")) return false;
-    if(!ResourceManager::LoadSound("Remove", "Resources/remove.wav")) return false;
+    if(!ResourceManager::LoadSound("Place", "Resources/Audio/place.wav")) return false;
+    if(!ResourceManager::LoadSound("Pop", "Resources/Audio/pop.wav")) return false;
+    if(!ResourceManager::LoadSound("Find", "Resources/Audio/find.wav")) return false;
+    if(!ResourceManager::LoadSound("Remove", "Resources/Audio/remove.wav")) return false;
 
-    if(!ResourceManager::LoadTexture("Map", "Resources/map.png")) return false;
-    if(!ResourceManager::LoadTexture("Path", "Resources/path.png")) return false;
-    if(!ResourceManager::LoadTexture("Maze", "Resources/maze.png")) return false;
+    if(!ResourceManager::LoadTexture("Map", "Resources/Textures/map.png")) return false;
+    if(!ResourceManager::LoadTexture("Path", "Resources/Textures/path.png")) return false;
+    if(!ResourceManager::LoadTexture("Maze", "Resources/Textures/maze.png")) return false;
 
     return true;
 }
@@ -153,7 +153,7 @@ void App::Update(float delta_time)
 
     UIManager.Update(context, *modules[using_module]);
 
-    if(!(interface.show_settings_window || interface.show_popup))
+    if(!(interface.show_settings_window || interface.popup_open))
     {
         if(Input::IsKeyDown(Keyboard::Key::Num1)) SetModule(0);
         else if(Input::IsKeyDown(Keyboard::Key::Num2)) SetModule(1);
