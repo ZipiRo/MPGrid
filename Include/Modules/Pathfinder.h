@@ -14,7 +14,7 @@ private:
     std::vector<Vector2i> path;
 
     std::unique_ptr<PathAlgorithm> algorithm;
-    const std::vector<PathAlgoithmEntry> algorithms = GetPathAlgorithms();
+    const std::vector<PathAlgoithmEntry> &algorithms = GetPathAlgorithms();
 
     bool pause_algorithm;
     bool running_algorithm;
