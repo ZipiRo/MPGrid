@@ -12,7 +12,7 @@ private:
     Point start;
 
     std::unique_ptr<MazeAlgorithm> algorithm;
-    const std::vector<MazeAlgorithmEntry> &algorithms = GetMazeAlgorithms();
+    const std::vector<MazeAlgorithmEntry> algorithms = GetMazeAlgorithms();
 
     bool pause_algorithm;
     bool running_algorithm;
