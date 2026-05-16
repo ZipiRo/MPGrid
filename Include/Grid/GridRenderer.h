@@ -75,6 +75,16 @@ public:
         return cell_size;
     }
 
+    int GetShapeVertexCount()
+    {
+        return grid_shape.getVertexCount();
+    }
+    
+    int GetLinesVertexCount()
+    {
+        return grid_lines.getVertexCount();
+    }
+    
     void SetOffset(Vector2f offset)
     {
         this->offset = Vector2f(offset.x / 2, offset.y / 2);

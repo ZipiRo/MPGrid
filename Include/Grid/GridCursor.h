@@ -7,6 +7,8 @@ private:
     float cursor_outline_thickness;
 
 public:
+    bool enabled = true;
+
     GridCursor() {}
 
     void Init(Vector2f cell_size)
@@ -26,6 +28,8 @@ public:
 
     Point GetCursorPoint(Vector2i mouse_position, const GridRenderer &grid_render)
     {
+        if(!enabled) return {Vector2i(0, 0), false};
+
         cursor = grid_render.GetCellPoint(Vector2f(mouse_position));
 
         return cursor;

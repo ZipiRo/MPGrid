@@ -6,9 +6,11 @@ struct Module
 
     virtual void SidebarInterface(ApplicationContext&) {}
     virtual void SettingsInterface(ApplicationContext&) {}
+    virtual void InfoInterface(ApplicationContext&) {}
 
-    virtual std::string GetSidebarTitle() = 0;
-    virtual std::string GetSettingsTitle() = 0;
+    virtual std::string GetSidebarTitle() { return "Sidebar"; };
+    virtual std::string GetSettingsTitle() { return "Settings"; };
+    virtual std::string GetInfoTitle() { return "Info"; };
 };
 
 struct ModuleEntry

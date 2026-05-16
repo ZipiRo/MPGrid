@@ -39,14 +39,30 @@ private:
 
         Vector2u window_size = context.window.getSize();
 
-        ImGuiWindowFlags flags = ImGuiWindowFlags_NoMove |
-                                 ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize |
                                  ImGuiWindowFlags_NoCollapse;
 
-        ImGui::SetNextWindowPos(ImVec2(context.interface.GetSettingsWindowPosition().x, context.interface.GetSettingsWindowPosition().y), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(context.interface.GetSettingsWindowSize().x, context.interface.GetSettingsWindowSize().y), ImGuiCond_Always);
 
         ImGui::Begin(title.c_str(), &context.interface.show_settings_window, flags);
+
+        if (ImGui::IsWindowHovered()) context.grid_cursor.enabled = false;
+    
+        Interface(context);
+
+        ImGui::End();
+    }
+
+    void InfoWindowBase(std::string title, ApplicationContext &context, std::function<void(ApplicationContext &)> Interface)
+    {
+        ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize |
+                                 ImGuiWindowFlags_NoCollapse;
+
+        ImGui::SetNextWindowSize(ImVec2(context.interface.GetInfoWindowSize().x, context.interface.GetInfoWindowSize().y), ImGuiCond_Always);
+
+        ImGui::Begin(title.c_str(), &context.interface.show_info_window, flags);
+
+        if (ImGui::IsWindowHovered()) context.grid_cursor.enabled = false;
 
         Interface(context);
 
@@ -103,18 +119,26 @@ private:
         if (Input::IsKeyDown(Keyboard::Key::LShift))
             context.interface.show_settings_window = !context.interface.show_settings_window;
 
+        if (Input::IsKeyDown(Keyboard::Key::I))
+            context.interface.show_info_window = !context.interface.show_info_window;
+
         Modulesbar(context);
 
         if (context.interface.show_sidebar_window)
         {
-            SidebarWindowBase(active.GetSidebarTitle(), context, [&](ApplicationContext &)
-                              { return active.SidebarInterface(context); });
+            SidebarWindowBase(active.GetSidebarTitle(), context, [&](ApplicationContext &) { return active.SidebarInterface(context); });
+
             grid_offset.x = -context.interface.GetSidebarWidth();
         }
 
         if (context.interface.show_settings_window)
-            SettingsWindowBase(active.GetSettingsTitle(), context, [&](ApplicationContext &)
-                               { return active.SettingsInterface(context); });
+        {
+            SettingsWindowBase(active.GetSettingsTitle(), context, [&](ApplicationContext &) { return active.SettingsInterface(context); });
+            return;
+        }
+
+        if (context.interface.show_info_window)
+            InfoWindowBase(active.GetInfoTitle(), context, [&](ApplicationContext &) { return active.InfoInterface(context); });
     }
 
 public:
@@ -143,6 +167,7 @@ public:
         Bottombar(context);
 
         grid_offset.y = 0;
+        context.grid_cursor.enabled = true;
 
         UpdateToolUI(context, active);
         context.grid_render.SetOffset(grid_offset);

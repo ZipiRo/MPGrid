@@ -30,6 +30,23 @@ class Grid
 private:
     std::vector<std::vector<Cell>> grid;
     Vector2i size;
+    int wall_count = 0;
+    int room_count = 0;
+
+    void CountCellTypes()
+    {
+        wall_count = 0;
+        room_count = 0;
+
+        for(const auto &row : grid)
+        {
+            for(const auto &cell : row)
+            {
+                if(cell.type == CELL_WALL) wall_count++;
+                else if(cell.type == CELL_NONE || cell.type == CELL_ROOM) room_count++;
+            }
+        }
+    }
 
 public:
     Grid()
@@ -60,11 +77,21 @@ public:
         return size;
     }
 
+    int GetWallCount() 
+    {
+        return wall_count;
+    }
+    
+    int GetRoomCount() 
+    {
+        return room_count;
+    }
+
     void SetCell(int x, int y, CellType type, Color color = Color::Magenta)
     {
-        if (!InBounds(x, y))
-            return;
+        if (!InBounds(x, y)) return;
         grid[y][x] = Cell(type, Vector2i(x, y), color);
+        CountCellTypes();
     }
 
     void Fill(CellType type)

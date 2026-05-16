@@ -20,6 +20,7 @@ private:
 
     void SidebarInterface(ApplicationContext &) override;
     void SettingsInterface(ApplicationContext &) override;
+    void InfoInterface(ApplicationContext &) override;
 
     std::string GetSidebarTitle() override
     {
@@ -31,18 +32,21 @@ private:
         return "Topo Settings";
     }
 
+    std::string GetInfoTitle() override
+    {
+        return "Topo Information";
+    }
+
     void BrushTool(Vector2i where, CellType type, Grid &grid)
     {
-        if (grid.Get(where.x, where.y).type == type)
-            return;
+        if (grid.Get(where.x, where.y).type == type) return;
         grid.SetCell(where.x, where.y, type);
         SoundPlayer::Play(ResourceManager::Sounds.Get("Place"));
     }
 
     void BucketTool(Vector2i where, CellType type, Grid &grid)
     {
-        if (grid.Get(where.x, where.y).type == type)
-            return;
+        if (grid.Get(where.x, where.y).type == type) return;
 
         std::queue<Vector2i> queue;
         std::vector<std::vector<bool>> visited;
@@ -162,16 +166,16 @@ public:
         case BRUSH:
             if (Input::IsMouseButton(Mouse::Button::Left) && cursor.valid)
                 BrushTool(cursor.position, CELL_WALL, context.grid);
-
             else if (Input::IsMouseButton(Mouse::Button::Right) && cursor.valid)
                 BrushTool(cursor.position, CELL_ROOM, context.grid);
+
             break;
         case BUCKET:
             if (Input::IsMouseButtonDown(Mouse::Button::Left) && cursor.valid)
                 BucketTool(cursor.position, CELL_WALL, context.grid);
-
             else if (Input::IsMouseButtonDown(Mouse::Button::Right) && cursor.valid)
                 BucketTool(cursor.position, CELL_ROOM, context.grid);
+            
             break;
         case RECTANGLE:
             if (Input::IsMouseButtonDown(Mouse::Button::Left) && cursor.valid && !rect_tool_holding)
@@ -189,6 +193,7 @@ public:
                     Mouse::Button::Right);
 
             RectangleTool(mouse_position, context);
+
             break;
         default:
             break;
@@ -280,6 +285,13 @@ void Topo::SidebarInterface(ApplicationContext &context)
             context.interface.show_settings_window = true;
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Show settings");
+        
+        ImGui::SameLine();
+
+        if (ImGui::Button("Info (I)"))
+            context.interface.show_info_window = true;
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Show information");
     }
 
     ImGui::EndDisabled();
@@ -335,4 +347,19 @@ void Topo::SettingsInterface(ApplicationContext &context)
         if (changed_colors)
             context.grid_render.SetColorTheme(custom_theme);
     }
+}
+
+void Topo::InfoInterface(ApplicationContext &context)
+{
+    Vector2i grid_size = context.grid.GetSize();
+    int total_cells = grid_size.x * grid_size.y;
+    int wall_count = context.grid.GetWallCount();
+    int room_count = context.grid.GetRoomCount();
+
+    ImGui::Text(std::string("Grid Size: " + std::to_string(grid_size.x) + "x" + std::to_string(grid_size.y)).c_str());
+    ImGui::Text(std::string("GridShape Vertex Count: " + std::to_string(context.grid_render.GetShapeVertexCount())).c_str());
+    ImGui::Text(std::string("GridLines Vertex Count: " + std::to_string(context.grid_render.GetLinesVertexCount())).c_str());
+    ImGui::Text(std::string("Cells: " + std::to_string(total_cells)).c_str());
+    ImGui::Text(std::string("Walls: " + std::to_string(wall_count)).c_str());
+    ImGui::Text(std::string("Rooms: " + std::to_string(room_count)).c_str());
 }

@@ -103,21 +103,14 @@ public:
 
 bool LoadResources()
 {
-    if (!ResourceManager::LoadSound("Place", "Resources/Audio/place.wav"))
-        return false;
-    if (!ResourceManager::LoadSound("Pop", "Resources/Audio/pop.wav"))
-        return false;
-    if (!ResourceManager::LoadSound("Find", "Resources/Audio/find.wav"))
-        return false;
-    if (!ResourceManager::LoadSound("Remove", "Resources/Audio/remove.wav"))
-        return false;
+    if (!ResourceManager::LoadSound("Place", "Resources/Audio/place.wav")) return false;
+    if (!ResourceManager::LoadSound("Pop", "Resources/Audio/pop.wav")) return false;
+    if (!ResourceManager::LoadSound("Find", "Resources/Audio/find.wav")) return false;
+    if (!ResourceManager::LoadSound("Remove", "Resources/Audio/remove.wav")) return false;
 
-    if (!ResourceManager::LoadTexture("Map", "Resources/Textures/map.png"))
-        return false;
-    if (!ResourceManager::LoadTexture("Path", "Resources/Textures/path.png"))
-        return false;
-    if (!ResourceManager::LoadTexture("Maze", "Resources/Textures/maze.png"))
-        return false;
+    if (!ResourceManager::LoadTexture("Map", "Resources/Textures/map.png")) return false;
+    if (!ResourceManager::LoadTexture("Path", "Resources/Textures/path.png")) return false;
+    if (!ResourceManager::LoadTexture("Maze", "Resources/Textures/maze.png")) return false;
 
     return true;
 }
@@ -145,8 +138,9 @@ void App::Start()
     grid_render.SetPosition(Vector2f(window.getSize().x / 2 - grid_render.GetLength().x / 2, window.getSize().y / 2 - grid_render.GetLength().y / 2));
     grid_cursor.Init(grid_render.GetCellSize());
 
-    interface.SetSettingsWindow(Vector2f(100, 100), Vector2f(window.getSize().x * 0.4f, window.getSize().y * 0.5f));
+    interface.SetSettingsWindow(Vector2f(window.getSize().x * 0.4f, window.getSize().y * 0.5f));
     interface.SetModulesbar(Vector2f(10, 30));
+    interface.SetInfoWindow(Vector2f(window.getSize().x * 0.2f, window.getSize().y * 0.4f)); 
     interface.SetSidebarWindow(window.getSize().x * 0.2f);
 
     ChangeModule(using_module);
@@ -166,7 +160,8 @@ void App::Update(float delta_time)
 
     ui_manager.Update(context, *module);
 
-    module->Update(context);
+    if(!(interface.popup_open || interface.show_settings_window))
+        module->Update(context);
 
     grid_render.Update(grid);
 }
