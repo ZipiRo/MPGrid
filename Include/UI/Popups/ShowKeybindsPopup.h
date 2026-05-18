@@ -26,6 +26,7 @@ public:
             Row("LMB", "Place");
             Row("RMB", "Remove");
             Row("LShift", "Show module settings");
+            Row("I", "Show module info");
             Row("Esc", "Close windows/popups");
             Row("Num1", "Topografy module");
             Row("Num2", "Pathfinding module");

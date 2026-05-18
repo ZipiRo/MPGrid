@@ -22,7 +22,6 @@ private:
     int using_algorithm;
     int path_index;
 
-    bool no_step_algorithm;
     bool no_step_path;
 
     float step_timer;
@@ -32,10 +31,13 @@ private:
     float path_step_delay;
     int start_algo_delay;
 
+    float algorithm_time;
+
     AlgoState algorithm_state;
 
     void SidebarInterface(ApplicationContext &) override;
     void SettingsInterface(ApplicationContext &) override;
+    void InfoInterface(ApplicationContext &) override;
 
     void Place(Vector2i where, Grid &grid, GridColorTheme theme)
     {
@@ -86,6 +88,7 @@ private:
     {
         algorithm_state = ALGO_STAL;
         path_index = 0;
+        algorithm_time = 0.0f;
         pause_algorithm = false;
         running_algorithm = false;
         start.valid = false;
@@ -122,6 +125,7 @@ private:
             return;
         running_algorithm = true;
         start_timer = 0.0f;
+        algorithm_time = 0.0f;
 
         algorithm = algorithms[using_algorithm].Get();
         algorithm->explored_color = theme.colors[PathExploredColor];
@@ -141,6 +145,11 @@ private:
         return "Pathfinder Settings";
     }
 
+    std::string GetInfoTitle() override
+    {
+        return "Pathfinder Info";
+    }
+
     void AlgorithmUpdate(ApplicationContext &context);
 
 public:
@@ -151,12 +160,12 @@ public:
         path_index = 0;
         reset_grid = false;
         algorithm_state = ALGO_STAL;
+        algorithm_time = 0.0f;
 
         algo_step_delay = 0.05f;
         path_step_delay = 0.05f;
         start_algo_delay = 0;
-
-        no_step_algorithm = false;
+        
         no_step_path = false;
     }
 
@@ -228,8 +237,10 @@ void Pathfinder::AlgorithmUpdate(ApplicationContext &context)
         step_timer += context.delta_time;
         if (step_timer < algo_step_delay)
             return;
+        
+        algorithm_time += context.delta_time;
 
-        no_step_algorithm ? algorithm->Direct(context.grid) : algorithm->Step(context.grid);
+        algorithm->Step(context.grid);
 
         SoundPlayer::Play(ResourceManager::Sounds.Get("Pop"));
 
@@ -271,7 +282,6 @@ void Pathfinder::AlgorithmUpdate(ApplicationContext &context)
         break;
     }
 }
-
 void Pathfinder::SidebarInterface(ApplicationContext &context)
 {
     ImGui::BeginDisabled(context.interface.show_settings_window);
@@ -472,4 +482,9 @@ void Pathfinder::SettingsInterface(ApplicationContext &context)
             context.grid_render.SetColorTheme(custom_theme);
         }
     }
+}
+
+void Pathfinder::InfoInterface(ApplicationContext &context)
+{
+    ImGui::Text(std::string("Algorithm elapsed time: " + std::to_string(algorithm_time) + "s").c_str());
 }
