@@ -413,14 +413,15 @@ void Mazer::InfoInterface(ApplicationContext &context)
 {
     ImGui::Text(std::string("Algorithm: " + algorithms[using_algorithm].name).c_str());
     ImGui::Text(std::string("Elapsed time: " + std::to_string(algorithm->elapsed_time) + "s").c_str());
-    ImGui::Text(std::string("Carved/Added walls: " + std::to_string(algorithm->carved_added_walls)).c_str());
+    ImGui::Text(std::string("Walls: " + std::to_string(context.grid.GetWallCount())).c_str());
+    ImGui::Text(std::string("Rooms: " + std::to_string(context.grid.GetRoomCount())).c_str());
 
     ImVec4 color;
 
     ImGui::NewLine();
 
     color = context.grid_render.GetColorTheme().colors[MazePrimaryColor];
-    ImGui::ColorButton("#ColorPrimary", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::ColorButton("#ColorPrimary", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
     ImGui::SameLine();
     ImGui::Text("Primary Color");
     ImGui::TextWrapped("The color where a wall was added or carved");
@@ -428,7 +429,7 @@ void Mazer::InfoInterface(ApplicationContext &context)
     ImGui::NewLine();
 
     color = context.grid_render.GetColorTheme().colors[MazeSecondaryColor];
-    ImGui::ColorButton("#ColorSecondary", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::ColorButton("#ColorSecondary", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
     ImGui::SameLine();
     ImGui::Text("Secondary Color");
     ImGui::TextWrapped("The color where the algorithm done some magic :)");

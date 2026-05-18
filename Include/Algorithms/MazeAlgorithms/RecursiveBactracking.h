@@ -35,7 +35,6 @@ public:
         done = false;
 
         elapsed_time = 0.0f;
-        carved_added_walls = 0;
 
         visited = std::vector<std::vector<bool>>(grid.GetSize().y, std::vector<bool>(grid.GetSize().x));
 
@@ -63,9 +62,7 @@ public:
             Vector2i wall = current + direction;
 
             grid.SetCell(wall.x, wall.y, CELL_ROOM, primary_color);
-            carved_added_walls++;
             grid.SetCell(next.x, next.y, CELL_ROOM, primary_color);
-            carved_added_walls++;
 
             visited[next.y][next.x] = true;
             stack.push(next);
@@ -74,7 +71,6 @@ public:
         {
             stack.pop();
             grid.SetCell(current.x, current.y, CELL_NONE, secondary_color);
-            carved_added_walls++;
         }
     }
 };

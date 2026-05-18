@@ -513,7 +513,7 @@ void Pathfinder::InfoInterface(ApplicationContext &context)
     ImGui::NewLine();
 
     color = context.grid_render.GetColorTheme().colors[PathBacktrackColor];
-    ImGui::ColorButton("#ColorBacktrack", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::ColorButton("#ColorBacktrack", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
     ImGui::SameLine();
     ImGui::Text("Backtrack Color");
     ImGui::TextWrapped("The color when the algorithm goes back");
@@ -521,7 +521,7 @@ void Pathfinder::InfoInterface(ApplicationContext &context)
     ImGui::NewLine();
 
     color = context.grid_render.GetColorTheme().colors[PathExploredColor];
-    ImGui::ColorButton("#ColorExplored", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::ColorButton("#ColorExplored", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
     ImGui::SameLine();
     ImGui::Text("Explored Color");
     ImGui::TextWrapped("The color for the explored cells");
@@ -529,8 +529,16 @@ void Pathfinder::InfoInterface(ApplicationContext &context)
     ImGui::NewLine();
 
     color = context.grid_render.GetColorTheme().colors[PathFrontierColor];
-    ImGui::ColorButton("#ColorFrontier", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::ColorButton("#ColorFrontier", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
     ImGui::SameLine();
     ImGui::Text("Frontier Color");
     ImGui::TextWrapped("The color for the next cells to visit");
+
+    ImGui::NewLine();
+
+    color = context.grid_render.GetColorTheme().colors[PathColor];
+    ImGui::ColorButton("#Color", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
+    ImGui::SameLine();
+    ImGui::Text("Path Color");
+    ImGui::TextWrapped("The color of the founded path");
 }

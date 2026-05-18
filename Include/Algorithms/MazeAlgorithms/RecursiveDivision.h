@@ -21,7 +21,6 @@ public:
         done = false;
 
         elapsed_time = 0.0f;
-        carved_added_walls = 0;
 
         stack.push({start, grid.GetSize()});
     }
@@ -62,13 +61,9 @@ public:
             int door_x = x + (2 * (rand() % ((width + 1) / 2)));
 
             for (int i = x; i < x + width; i++)
-            {
                 grid.SetCell(i, wall_y, CELL_WALL, primary_color);
-                carved_added_walls++;
-            }
 
             grid.SetCell(door_x, wall_y, CELL_ROOM, secondary_color);
-            carved_added_walls++;
 
             Region top = {Vector2i(x, y), Vector2i(width, wall_y - y)};
             Region bottom = {Vector2i(x, wall_y + 1), Vector2i(width, y + height - wall_y - 1)};
@@ -87,13 +82,9 @@ public:
             int door_y = y + (2 * (rand() % ((height + 1) / 2)));
 
             for (int i = y; i < y + height; i++)
-            {
                 grid.SetCell(wall_x, i, CELL_WALL, primary_color);
-                carved_added_walls++;
-            }
 
             grid.SetCell(wall_x, door_y, CELL_ROOM, secondary_color);
-            carved_added_walls++;
 
             Region left = {Vector2i(x, y), Vector2i(wall_x - x, height)};
             Region right = {Vector2i(wall_x + 1, y), Vector2i(x + width - wall_x - 1, height)};

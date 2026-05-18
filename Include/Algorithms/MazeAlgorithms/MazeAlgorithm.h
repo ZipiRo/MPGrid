@@ -6,7 +6,6 @@ struct MazeAlgorithm
     Color secondary_color;
 
     float elapsed_time = 0.0f;
-    int carved_added_walls = 0;
 
     virtual void Init(const Grid &grid, Vector2i start) = 0;
     virtual void Step(Grid &grid) = 0;

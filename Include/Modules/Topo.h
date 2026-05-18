@@ -352,13 +352,29 @@ void Topo::InfoInterface(ApplicationContext &context)
 {
     Vector2i grid_size = context.grid.GetSize();
     int total_cells = grid_size.x * grid_size.y;
-    int wall_count = context.grid.GetWallCount();
-    int room_count = context.grid.GetRoomCount();
 
     ImGui::Text(std::string("Grid Size: " + std::to_string(grid_size.x) + "x" + std::to_string(grid_size.y)).c_str());
     ImGui::Text(std::string("GridShape Vertex Count: " + std::to_string(context.grid_render.GetShapeVertexCount())).c_str());
     ImGui::Text(std::string("GridLines Vertex Count: " + std::to_string(context.grid_render.GetLinesVertexCount())).c_str());
     ImGui::Text(std::string("Cells: " + std::to_string(total_cells)).c_str());
-    ImGui::Text(std::string("Walls: " + std::to_string(wall_count)).c_str());
-    ImGui::Text(std::string("Rooms: " + std::to_string(room_count)).c_str());
+    ImGui::Text(std::string("Walls: " + std::to_string(context.grid.GetWallCount())).c_str());
+    ImGui::Text(std::string("Rooms: " + std::to_string(context.grid.GetRoomCount())).c_str());
+
+    ImVec4 color;
+
+    ImGui::NewLine();
+
+    color = context.grid_render.GetColorTheme().colors[WallColor];
+    ImGui::ColorButton("#ColorWall", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
+    ImGui::SameLine();
+    ImGui::Text("Wall Color");
+    ImGui::TextWrapped("The color where a wall is placed");
+
+    ImGui::NewLine();
+    
+    color = context.grid_render.GetColorTheme().colors[RoomColor];
+    ImGui::ColorButton("#ColorRoom", color, ImGuiColorEditFlags_NoTooltip, ImVec2(20, 20));
+    ImGui::SameLine();
+    ImGui::Text("Room Color");
+    ImGui::TextWrapped("The color where a room exists");
 }

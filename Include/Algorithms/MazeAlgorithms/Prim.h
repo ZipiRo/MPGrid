@@ -55,7 +55,6 @@ public:
         done = false;
 
         elapsed_time = 0.0f;
-        carved_added_walls = 0;
 
         algo_state = INIT;
     }
@@ -65,7 +64,6 @@ public:
         if (algo_state == INIT)
         {
             grid.SetCell(start.x, start.y, CELL_ROOM, primary_color);
-            carved_added_walls++;
             AddFrontiers(start, grid);
             algo_state = STEP;
         }
@@ -87,9 +85,7 @@ public:
             Vector2i neighbour = neighbours[rand() % neighbours.size()];
 
             grid.SetCell(current.x, current.y, CELL_ROOM, primary_color);
-            carved_added_walls++;
             grid.SetCell((current.x + neighbour.x) / 2, (current.y + neighbour.y) / 2, CELL_ROOM, secondary_color);
-            carved_added_walls++;
 
             AddFrontiers(current, grid);
         }
