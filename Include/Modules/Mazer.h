@@ -19,8 +19,6 @@ private:
     bool reset_grid;
     int using_algorithm;
 
-    bool no_step_algorithm;
-
     float step_timer;
     float start_timer;
 
@@ -31,6 +29,7 @@ private:
 
     void SidebarInterface(ApplicationContext &) override;
     void SettingsInterface(ApplicationContext &) override;
+    void InfoInterface(ApplicationContext &) override;
 
     void PlaceStart(Vector2i where, Grid &grid, GridColorTheme theme)
     {
@@ -77,8 +76,8 @@ private:
             return;
         running_algorithm = true;
         start_timer = 0.0f;
+        step_timer = algo_step_delay;
 
-        algorithm = algorithms[using_algorithm].Get();
         algorithm->primary_color = theme.colors[MazePrimaryColor];
         algorithm->secondary_color = theme.colors[MazeSecondaryColor];
 
@@ -108,7 +107,7 @@ public:
         algo_step_delay = 0.05f;
         start_algo_delay = 0;
 
-        no_step_algorithm = false;
+        algorithm = algorithms[using_algorithm].Get();
     }
 
     void Init(ApplicationContext &context) override
@@ -164,10 +163,16 @@ public:
             Run(context.grid_render.GetColorTheme());
 
         if (Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() > 0)
+        {
             using_algorithm = std::min((int)algorithms.size() - 1, using_algorithm + 1);
+            algorithm = algorithms[using_algorithm].Get();
+        }
 
         if (Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() < 0)
+        {
             using_algorithm = std::max(0, using_algorithm - 1);
+            algorithm = algorithms[using_algorithm].Get();
+        }
     }
 };
 
@@ -193,7 +198,9 @@ void Mazer::AlgorithmUpdate(Grid &grid, float delta_time)
         if (step_timer < algo_step_delay)
             return;
 
-        no_step_algorithm ? algorithm->Direct(grid) : algorithm->Step(grid);
+        algorithm->elapsed_time += delta_time;
+
+        algorithm->Step(grid);
 
         SoundPlayer::Play(ResourceManager::Sounds.Get("Remove"));
 
@@ -234,7 +241,10 @@ void Mazer::SidebarInterface(ApplicationContext &context)
                                                          : ImGui::GetStyleColorVec4(ImGuiCol_Button));
 
             if (ImGui::Button(algorithms[i].abbr.c_str(), ImVec2(button_width, 0)))
+            {
                 using_algorithm = i;
+                algorithm = algorithms[using_algorithm].Get();
+            }
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("Maze generator algorithm");
 
@@ -326,14 +336,27 @@ void Mazer::SidebarInterface(ApplicationContext &context)
             context.interface.show_settings_window = true;
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Show settings");
+
+        ImGui::SameLine();
+        if (ImGui::Button("Info (I)"))
+            context.interface.show_info_window = true;
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Show information");
     }
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::CollapsingHeader("Algorithm Info"))
     {
-        ImGui::Text(std::string("Name:\n" + algorithms[using_algorithm].name).c_str());
+        ImGui::Text(std::string("Name:" + algorithms[using_algorithm].name).c_str());
         ImGui::TextWrapped(std::string("Description:\n" + algorithms[using_algorithm].desc).c_str());
         ImGui::TextWrapped(std::string("Rules:\n" + algorithms[using_algorithm].rules).c_str());
+        ImGui::TextWrapped(std::string("Complexity:\n" + algorithms[using_algorithm].complexity).c_str());
+        ImGui::Text(std::string("Maze Type: " + algorithms[using_algorithm].maze_type).c_str());
+        ImGui::Text(std::string("Perfect Maze: " + algorithms[using_algorithm].perfect_maze).c_str());
+        ImGui::Text(std::string("Use Randomnes: " + algorithms[using_algorithm].use_random).c_str());
+        ImGui::Text(std::string("Growth Style: " + algorithms[using_algorithm].growth_style).c_str());
+        ImGui::Text(std::string("Bias: " + algorithms[using_algorithm].bias).c_str());
+        ImGui::Text(std::string("Data Structure: " + algorithms[using_algorithm].data_structure).c_str());
     }
 
     ImGui::EndDisabled();
@@ -384,4 +407,29 @@ void Mazer::SettingsInterface(ApplicationContext &context)
             context.grid_render.SetColorTheme(custom_theme);
         }
     }
+}    
+
+void Mazer::InfoInterface(ApplicationContext &context)
+{
+    ImGui::Text(std::string("Algorithm: " + algorithms[using_algorithm].name).c_str());
+    ImGui::Text(std::string("Elapsed time: " + std::to_string(algorithm->elapsed_time) + "s").c_str());
+    ImGui::Text(std::string("Carved/Added walls: " + std::to_string(algorithm->carved_added_walls)).c_str());
+
+    ImVec4 color;
+
+    ImGui::NewLine();
+
+    color = context.grid_render.GetColorTheme().colors[MazePrimaryColor];
+    ImGui::ColorButton("#ColorPrimary", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::SameLine();
+    ImGui::Text("Primary Color");
+    ImGui::TextWrapped("The color where a wall was added or carved");
+    
+    ImGui::NewLine();
+
+    color = context.grid_render.GetColorTheme().colors[MazeSecondaryColor];
+    ImGui::ColorButton("#ColorSecondary", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::SameLine();
+    ImGui::Text("Secondary Color");
+    ImGui::TextWrapped("The color where the algorithm done some magic :)");
 }

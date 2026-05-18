@@ -285,9 +285,8 @@ void Topo::SidebarInterface(ApplicationContext &context)
             context.interface.show_settings_window = true;
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Show settings");
-        
-        ImGui::SameLine();
 
+        ImGui::SameLine();
         if (ImGui::Button("Info (I)"))
             context.interface.show_info_window = true;
         if (ImGui::IsItemHovered())

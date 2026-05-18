@@ -44,11 +44,8 @@ private:
         return neighbours;
     }
 
-public:
-    static std::string abbr;
-    static std::string name;
-    static std::string desc;
-    static std::string rules;
+public:    
+    static std::string abbr, name, desc, rules, complexity, maze_type, perfect_maze, use_random, growth_style, bias, data_structure;
 
     Prim() {}
 
@@ -56,6 +53,9 @@ public:
     {
         this->start = start;
         done = false;
+
+        elapsed_time = 0.0f;
+        carved_added_walls = 0;
 
         algo_state = INIT;
     }
@@ -65,6 +65,7 @@ public:
         if (algo_state == INIT)
         {
             grid.SetCell(start.x, start.y, CELL_ROOM, primary_color);
+            carved_added_walls++;
             AddFrontiers(start, grid);
             algo_state = STEP;
         }
@@ -86,7 +87,9 @@ public:
             Vector2i neighbour = neighbours[rand() % neighbours.size()];
 
             grid.SetCell(current.x, current.y, CELL_ROOM, primary_color);
+            carved_added_walls++;
             grid.SetCell((current.x + neighbour.x) / 2, (current.y + neighbour.y) / 2, CELL_ROOM, secondary_color);
+            carved_added_walls++;
 
             AddFrontiers(current, grid);
         }
@@ -97,3 +100,10 @@ std::string Prim::abbr = "Prim";
 std::string Prim::name = "Prim";
 std::string Prim::desc = "Prim's algorithm (Prim) is a method for building a maze by starting from a cell and gradually expanding outward, always choosing the next cell through the smallest available connection until the whole area is connected.";
 std::string Prim::rules = "1.Use a filled grid (all walls) for the algorithm to work";
+std::string Prim::complexity = "Time Complexity: O(E * logC) \nSpace Complexity: O(C) \nC - cells \nE - connections";
+std::string Prim::maze_type = "Randomized";
+std::string Prim::perfect_maze = "Yes";
+std::string Prim::use_random = "Yes";
+std::string Prim::growth_style = "Outward from frontier";
+std::string Prim::bias = "Balanced";
+std::string Prim::data_structure = "Priority queue";

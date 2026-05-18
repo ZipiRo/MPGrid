@@ -11,10 +11,7 @@ private:
     Vector2i start;
 
 public:
-    static std::string abbr;
-    static std::string name;
-    static std::string desc;
-    static std::string rules;
+    static std::string abbr, name, desc, rules, complexity, maze_type, perfect_maze, use_random, growth_style, bias, data_structure;
 
     RD() {}
 
@@ -22,6 +19,9 @@ public:
     {
         this->start = start;
         done = false;
+
+        elapsed_time = 0.0f;
+        carved_added_walls = 0;
 
         stack.push({start, grid.GetSize()});
     }
@@ -62,9 +62,13 @@ public:
             int door_x = x + (2 * (rand() % ((width + 1) / 2)));
 
             for (int i = x; i < x + width; i++)
+            {
                 grid.SetCell(i, wall_y, CELL_WALL, primary_color);
+                carved_added_walls++;
+            }
 
             grid.SetCell(door_x, wall_y, CELL_ROOM, secondary_color);
+            carved_added_walls++;
 
             Region top = {Vector2i(x, y), Vector2i(width, wall_y - y)};
             Region bottom = {Vector2i(x, wall_y + 1), Vector2i(width, y + height - wall_y - 1)};
@@ -83,9 +87,13 @@ public:
             int door_y = y + (2 * (rand() % ((height + 1) / 2)));
 
             for (int i = y; i < y + height; i++)
+            {
                 grid.SetCell(wall_x, i, CELL_WALL, primary_color);
+                carved_added_walls++;
+            }
 
             grid.SetCell(wall_x, door_y, CELL_ROOM, secondary_color);
+            carved_added_walls++;
 
             Region left = {Vector2i(x, y), Vector2i(wall_x - x, height)};
             Region right = {Vector2i(wall_x + 1, y), Vector2i(x + width - wall_x - 1, height)};
@@ -102,3 +110,10 @@ std::string RD::abbr = "RD";
 std::string RD::name = "Recursive Division";
 std::string RD::desc = "Recursive Division (RD) is a maze generation algorithm that repeatedly splits an area with walls, places a single passage through each wall, and recursively applies the same process to the resulting sub-sections until the maze is fully partitioned.";
 std::string RD::rules = "1.Use a clear grid (no walls) for the algorithm to work";
+std::string RD::complexity = "Time Complexity: O(C * logC) \nSpace Complexity: O(logC) \nC - cells \nE - connections";
+std::string RD::maze_type = "Divide-and-conquer";
+std::string RD::perfect_maze = "Yes";
+std::string RD::use_random = "Yes (Wall/Door Placemant)";
+std::string RD::growth_style = "Spliting regions with walls";
+std::string RD::bias = "Structured";
+std::string RD::data_structure = "Stack (Regions)";

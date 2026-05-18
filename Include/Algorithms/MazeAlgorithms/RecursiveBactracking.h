@@ -24,11 +24,8 @@ private:
         return neighbors;
     }
 
-public:
-    static std::string abbr;
-    static std::string name;
-    static std::string desc;
-    static std::string rules;
+public:    
+    static std::string abbr, name, desc, rules, complexity, maze_type, perfect_maze, use_random, growth_style, bias, data_structure;
 
     RB() {}
 
@@ -36,6 +33,9 @@ public:
     {
         this->start = start;
         done = false;
+
+        elapsed_time = 0.0f;
+        carved_added_walls = 0;
 
         visited = std::vector<std::vector<bool>>(grid.GetSize().y, std::vector<bool>(grid.GetSize().x));
 
@@ -63,7 +63,9 @@ public:
             Vector2i wall = current + direction;
 
             grid.SetCell(wall.x, wall.y, CELL_ROOM, primary_color);
+            carved_added_walls++;
             grid.SetCell(next.x, next.y, CELL_ROOM, primary_color);
+            carved_added_walls++;
 
             visited[next.y][next.x] = true;
             stack.push(next);
@@ -72,6 +74,7 @@ public:
         {
             stack.pop();
             grid.SetCell(current.x, current.y, CELL_NONE, secondary_color);
+            carved_added_walls++;
         }
     }
 };
@@ -80,3 +83,10 @@ std::string RB::abbr = "RB";
 std::string RB::name = "Recursive Backtrack";
 std::string RB::desc = "Recursive Backtracker (RB) is a depth-first maze generation algorithm that moves forward through random unvisited neighbors, carving paths, and backtracks when it hits a dead end until all cells are visited.";
 std::string RB::rules = "1.Use a filled grid (all walls) for the algorithm to work";
+std::string RB::complexity = "Time Complexity: O(C + E) \nSpace Complexity: O(C) \nC - cells \nE - connections";
+std::string RB::maze_type = "DFS-based";
+std::string RB::perfect_maze = "Yes";
+std::string RB::use_random = "Yes";
+std::string RB::growth_style = "Deep path carving";
+std::string RB::bias = "Long corridors";
+std::string RB::data_structure = "Stack / Recursion";

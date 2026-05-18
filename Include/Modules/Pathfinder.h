@@ -31,8 +31,6 @@ private:
     float path_step_delay;
     int start_algo_delay;
 
-    float algorithm_time;
-
     AlgoState algorithm_state;
 
     void SidebarInterface(ApplicationContext &) override;
@@ -88,7 +86,6 @@ private:
     {
         algorithm_state = ALGO_STAL;
         path_index = 0;
-        algorithm_time = 0.0f;
         pause_algorithm = false;
         running_algorithm = false;
         start.valid = false;
@@ -123,11 +120,11 @@ private:
     {
         if (!start.valid || !end.valid)
             return;
+
         running_algorithm = true;
         start_timer = 0.0f;
-        algorithm_time = 0.0f;
+        step_timer = algo_step_delay;
 
-        algorithm = algorithms[using_algorithm].Get();
         algorithm->explored_color = theme.colors[PathExploredColor];
         algorithm->frontier_color = theme.colors[PathFrontierColor];
         algorithm->backtrack_color = theme.colors[PathBacktrackColor];
@@ -160,13 +157,13 @@ public:
         path_index = 0;
         reset_grid = false;
         algorithm_state = ALGO_STAL;
-        algorithm_time = 0.0f;
 
         algo_step_delay = 0.05f;
         path_step_delay = 0.05f;
         start_algo_delay = 0;
         
         no_step_path = false;
+        algorithm = algorithms[using_algorithm].Get();
     }
 
     void Init(ApplicationContext &context) override
@@ -210,10 +207,16 @@ public:
             Run(context.grid_render.GetColorTheme());
 
         if (Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() > 0)
+        {
             using_algorithm = std::min((int)algorithms.size() - 1, using_algorithm + 1);
+            algorithm = algorithms[using_algorithm].Get();
+        }
 
         if (Input::IsKey(Keyboard::Key::LControl) && Input::MouseWheelDelta() < 0)
+        {
             using_algorithm = std::max(0, using_algorithm - 1);
+            algorithm = algorithms[using_algorithm].Get();
+        }
     }
 };
 
@@ -238,7 +241,7 @@ void Pathfinder::AlgorithmUpdate(ApplicationContext &context)
         if (step_timer < algo_step_delay)
             return;
         
-        algorithm_time += context.delta_time;
+        algorithm->elapsed_time += context.delta_time;
 
         algorithm->Step(context.grid);
 
@@ -282,6 +285,7 @@ void Pathfinder::AlgorithmUpdate(ApplicationContext &context)
         break;
     }
 }
+
 void Pathfinder::SidebarInterface(ApplicationContext &context)
 {
     ImGui::BeginDisabled(context.interface.show_settings_window);
@@ -306,8 +310,10 @@ void Pathfinder::SidebarInterface(ApplicationContext &context)
                                                          : ImGui::GetStyleColorVec4(ImGuiCol_Button));
 
             if (ImGui::Button(algorithms[i].abbr.c_str(), ImVec2(button_width, 0)))
+            {
                 using_algorithm = i;
-
+                algorithm = algorithms[using_algorithm].Get();
+            }
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("Pathfinding algorithm");
 
@@ -401,16 +407,27 @@ void Pathfinder::SidebarInterface(ApplicationContext &context)
 
         if (ImGui::Button("Settings (LShift)"))
             context.interface.show_settings_window = true;
-
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Show settings");
+
+        ImGui::SameLine();
+        if (ImGui::Button("Info (I)"))
+            context.interface.show_info_window = true;
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Show information");
     }
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::CollapsingHeader("Algorithm Info"))
     {
-        ImGui::Text(std::string("Name:\n" + algorithms[using_algorithm].name).c_str());
+        ImGui::Text(std::string("Name:" + algorithms[using_algorithm].name).c_str());
         ImGui::TextWrapped(std::string("Description:\n" + algorithms[using_algorithm].desc).c_str());
+        ImGui::TextWrapped(std::string("Comlexity:\n" + algorithms[using_algorithm].complexity).c_str());
+        ImGui::Text(std::string("Complete: " + algorithms[using_algorithm].complete).c_str());
+        ImGui::Text(std::string("Weighted: " + algorithms[using_algorithm].weighted).c_str());
+        ImGui::Text(std::string("Optimal: " + algorithms[using_algorithm].optimal).c_str());
+        ImGui::Text(std::string("Data Structure: " + algorithms[using_algorithm].data_structure).c_str());
+        ImGui::Text(std::string("Expands: " + algorithms[using_algorithm].expands).c_str());
     }
 
     ImGui::EndDisabled();
@@ -486,5 +503,34 @@ void Pathfinder::SettingsInterface(ApplicationContext &context)
 
 void Pathfinder::InfoInterface(ApplicationContext &context)
 {
-    ImGui::Text(std::string("Algorithm elapsed time: " + std::to_string(algorithm_time) + "s").c_str());
+    ImGui::Text(std::string("Algorithm: " + algorithms[using_algorithm].name).c_str());
+    ImGui::Text(std::string("Elapsed time: " + std::to_string(algorithm->elapsed_time) + "s").c_str());
+    ImGui::Text(std::string("Visited cells: " + std::to_string(algorithm->visited_cells)).c_str());
+    ImGui::Text(std::string("Path length: " + std::to_string(algorithm->path_length)).c_str());
+
+    ImVec4 color;
+
+    ImGui::NewLine();
+
+    color = context.grid_render.GetColorTheme().colors[PathBacktrackColor];
+    ImGui::ColorButton("#ColorBacktrack", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::SameLine();
+    ImGui::Text("Backtrack Color");
+    ImGui::TextWrapped("The color when the algorithm goes back");
+    
+    ImGui::NewLine();
+
+    color = context.grid_render.GetColorTheme().colors[PathExploredColor];
+    ImGui::ColorButton("#ColorExplored", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::SameLine();
+    ImGui::Text("Explored Color");
+    ImGui::TextWrapped("The color for the explored cells");
+
+    ImGui::NewLine();
+
+    color = context.grid_render.GetColorTheme().colors[PathFrontierColor];
+    ImGui::ColorButton("#ColorFrontier", color, ImGuiColorEditFlags_NoTooltip, ImVec2(30, 30));
+    ImGui::SameLine();
+    ImGui::Text("Frontier Color");
+    ImGui::TextWrapped("The color for the next cells to visit");
 }

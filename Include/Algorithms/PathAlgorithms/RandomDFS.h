@@ -6,10 +6,8 @@ private:
     std::stack<Vector2i> stack;
     Vector2i start, end;
 
-public:
-    static std::string abbr;
-    static std::string name;
-    static std::string desc;
+public:    
+    static std::string abbr, name, desc, complexity, weighted, complete, optimal, data_structure, expands;
 
     RandomDFS() {}
 
@@ -20,6 +18,10 @@ public:
 
         done = false;
         path_found = false;
+        
+        path_length = 0;
+        elapsed_time = 0.0f;
+        visited_cells = 0;
 
         visited = std::vector<std::vector<bool>>(grid.GetSize().y, std::vector<bool>(grid.GetSize().x));
         parent = std::vector<std::vector<Vector2i>>(grid.GetSize().y, std::vector<Vector2i>(grid.GetSize().x));
@@ -40,6 +42,8 @@ public:
         stack.pop();
 
         grid.SetCell(current.x, current.y, CELL_NONE, explored_color);
+
+        visited_cells++;
 
         if (current == end)
         {
@@ -90,6 +94,7 @@ public:
         }
 
         std::reverse(path.begin(), path.end());
+        path_length = path.size();
         return path;
     }
 };
@@ -97,3 +102,9 @@ public:
 std::string RandomDFS::abbr = "RDFS";
 std::string RandomDFS::name = "Random Depth-First Search";
 std::string RandomDFS::desc = "Random Direction DFS (RDFS) is a variation of Depth-First Search where, instead of visiting neighbors in a fixed order, the algorithm chooses a random order each time.";
+std::string RandomDFS::complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
+std::string RandomDFS::complete = "Sometimes";
+std::string RandomDFS::weighted = "No";
+std::string RandomDFS::optimal = "No (Random)";
+std::string RandomDFS::data_structure = "Stack / Recursion";
+std::string RandomDFS::expands = "Deep-first (Random)";

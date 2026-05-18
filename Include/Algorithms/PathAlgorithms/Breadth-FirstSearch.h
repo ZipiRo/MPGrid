@@ -7,9 +7,7 @@ private:
     Vector2i start, end;
 
 public:
-    static std::string abbr;
-    static std::string name;
-    static std::string desc;
+    static std::string abbr, name, desc, complexity, weighted, complete, optimal, data_structure, expands;
 
     BFS() {}
 
@@ -20,6 +18,10 @@ public:
 
         done = false;
         path_found = false;
+        
+        path_length = 0;
+        elapsed_time = 0.0f;
+        visited_cells = 0;
 
         visited = std::vector<std::vector<bool>>(grid.GetSize().y, std::vector<bool>(grid.GetSize().x));
         parent = std::vector<std::vector<Vector2i>>(grid.GetSize().y, std::vector<Vector2i>(grid.GetSize().x));
@@ -40,6 +42,8 @@ public:
         queue.pop();
 
         grid.SetCell(current.x, current.y, CELL_NONE, explored_color);
+
+        visited_cells++;
 
         if (current == end)
         {
@@ -80,6 +84,7 @@ public:
         }
 
         std::reverse(path.begin(), path.end());
+        path_length = path.size();
         return path;
     }
 };
@@ -87,3 +92,9 @@ public:
 std::string BFS::abbr = "BFS";
 std::string BFS::name = "Breadth-First Search";
 std::string BFS::desc = "Breadth-First Search (BFS) is a graph traversal algorithm that explores nodes level by level, visiting all neighbors of a node before moving deeper.";
+std::string BFS::complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
+std::string BFS::complete = "Yes";
+std::string BFS::weighted = "No";
+std::string BFS::optimal = "Yes (unweighted graphs)";
+std::string BFS::data_structure = "Queue";
+std::string BFS::expands = "Uniformly";
