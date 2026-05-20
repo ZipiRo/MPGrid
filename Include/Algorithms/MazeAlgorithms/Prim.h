@@ -86,6 +86,8 @@ public:
 
             grid.SetCell(current.x, current.y, CELL_ROOM, primary_color);
             grid.SetCell((current.x + neighbour.x) / 2, (current.y + neighbour.y) / 2, CELL_ROOM, secondary_color);
+    
+            SoundPlayer::Play(ResourceManager::Sounds.Get("Remove"));
 
             AddFrontiers(current, grid);
         }

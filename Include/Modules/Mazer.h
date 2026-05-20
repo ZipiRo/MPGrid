@@ -202,8 +202,6 @@ void Mazer::AlgorithmUpdate(Grid &grid, float delta_time)
 
         algorithm->Step(grid);
 
-        SoundPlayer::Play(ResourceManager::Sounds.Get("Remove"));
-
         if (algorithm->done)
             algorithm_state = ALGO_DONE;
 

@@ -63,6 +63,7 @@ public:
 
             grid.SetCell(wall.x, wall.y, CELL_ROOM, primary_color);
             grid.SetCell(next.x, next.y, CELL_ROOM, primary_color);
+            SoundPlayer::Play(ResourceManager::Sounds.Get("Remove"));
 
             visited[next.y][next.x] = true;
             stack.push(next);
@@ -71,6 +72,7 @@ public:
         {
             stack.pop();
             grid.SetCell(current.x, current.y, CELL_NONE, secondary_color);
+            SoundPlayer::Play(ResourceManager::Sounds.Get("Pop"));
         }
     }
 };
