@@ -20,7 +20,7 @@ public:
                 ImGui::Text("%s", key);
 
                 ImGui::TableSetColumnIndex(1);
-                ImGui::Text("%s", action);
+                ImGui::TextWrapped("%s", action);
             };
 
             Row("LMB", "Place");
@@ -33,7 +33,8 @@ public:
             Row("Num3", "Maze generator module");
             Row("Tab", "Hide sidebar");
             Row("Space", "Start algorithm");
-            Row("P", "Pause algorithm");
+            Row("P", "Pause/Play algorithm");
+            Row("A", "Open current algorithm documentation web page");
             Row("H", "Hide interface");
             Row("T", "Random algorithm positions");
             Row("F", "Fill grid");

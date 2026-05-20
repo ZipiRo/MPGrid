@@ -18,7 +18,7 @@ struct PathAlgorithm
 
 struct PathAlgoithmEntry
 {
-    std::string abbr, name, desc, complexity, complete, weighted, optimal, data_structure, expands;
+    std::string abbr, name, desc, complexity, complete, weighted, optimal, data_structure, expands, hdocument;
     std::function<std::unique_ptr<PathAlgorithm>()> Get;
 };
 
@@ -30,45 +30,44 @@ std::vector<PathAlgoithmEntry> GetPathAlgorithms()
 {
     std::vector<PathAlgoithmEntry> algorithms;
     PathAlgoithmEntry algorithm_entry; 
-
-    algorithm_entry.abbr = DFS::abbr;
-    algorithm_entry.name = DFS::name;
-    algorithm_entry.desc = DFS::desc;
-    algorithm_entry.complexity = DFS::complexity;
-    algorithm_entry.complete = DFS::complete;
-    algorithm_entry.weighted = DFS::weighted;
-    algorithm_entry.optimal = DFS::optimal;
-    algorithm_entry.data_structure = DFS::data_structure;
-    algorithm_entry.expands = DFS::expands;
+    
+    algorithm_entry.abbr = "DFS";
+    algorithm_entry.name = "Depth-First Search";
+    algorithm_entry.desc = "Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along one branch before backtracking.";
+    algorithm_entry.complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
+    algorithm_entry.complete = "Sometimes";
+    algorithm_entry.weighted = "No";
+    algorithm_entry.optimal = "No";
+    algorithm_entry.data_structure = "Stack / Recursion";
+    algorithm_entry.expands = "Deep-first";
+    algorithm_entry.hdocument = "DFS_Algo";
     algorithm_entry.Get = []() { return std::make_unique<DFS>(); };
-
     algorithms.push_back(algorithm_entry);
 
-    algorithm_entry.abbr = BFS::abbr;
-    algorithm_entry.name = BFS::name;
-    algorithm_entry.desc = BFS::desc;
-    algorithm_entry.complexity = BFS::complexity;
-    algorithm_entry.complete = BFS::complete;
-    algorithm_entry.weighted = BFS::weighted;
-    algorithm_entry.optimal = BFS::optimal;
-    algorithm_entry.data_structure = BFS::data_structure;
-    algorithm_entry.expands = BFS::expands;
-
+    algorithm_entry.abbr = "BFS";
+    algorithm_entry.name = "Breadth-First Search";
+    algorithm_entry.desc = "Breadth-First Search (BFS) is a graph traversal algorithm that explores nodes level by level, visiting all neighbors of a node before moving deeper.";
+    algorithm_entry.complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
+    algorithm_entry.complete = "Yes";
+    algorithm_entry.weighted = "No";
+    algorithm_entry.optimal = "Yes (unweighted graphs)";
+    algorithm_entry.data_structure = "Queue";
+    algorithm_entry.expands = "Uniformly";
+    algorithm_entry.hdocument = "BFS_Algo";
     algorithm_entry.Get = []() { return std::make_unique<BFS>(); };
-
     algorithms.push_back(algorithm_entry);
 
-    algorithm_entry.abbr = RandomDFS::abbr;
-    algorithm_entry.name = RandomDFS::name;
-    algorithm_entry.desc = RandomDFS::desc;
-    algorithm_entry.complexity = RandomDFS::complexity;
-    algorithm_entry.complete = RandomDFS::complete;
-    algorithm_entry.weighted = RandomDFS::weighted;
-    algorithm_entry.optimal = RandomDFS::optimal;
-    algorithm_entry.data_structure = RandomDFS::data_structure;
-    algorithm_entry.expands = RandomDFS::expands;
+    algorithm_entry.abbr = "RDFS";
+    algorithm_entry.name = "Random Depth-First Search";
+    algorithm_entry.desc = "Random Direction DFS (RDFS) is a variation of Depth-First Search where, instead of visiting neighbors in a fixed order, the algorithm chooses a random order each time.";
+    algorithm_entry.complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
+    algorithm_entry.complete = "Sometimes";
+    algorithm_entry.weighted = "No";
+    algorithm_entry.optimal = "No (Random)";
+    algorithm_entry.data_structure = "Stack / Recursion";
+    algorithm_entry.expands = "Deep-first (Random)";
+    algorithm_entry.hdocument = "RDFS_Algo";
     algorithm_entry.Get = []() { return std::make_unique<RandomDFS>(); };
-
     algorithms.push_back(algorithm_entry);
 
     return algorithms;

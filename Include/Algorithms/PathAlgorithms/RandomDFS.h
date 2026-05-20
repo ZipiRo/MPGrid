@@ -6,9 +6,7 @@ private:
     std::stack<Vector2i> stack;
     Vector2i start, end;
 
-public:    
-    static std::string abbr, name, desc, complexity, weighted, complete, optimal, data_structure, expands;
-
+public:
     RandomDFS() {}
 
     void Init(const Grid &grid, Vector2i start, Vector2i end) override
@@ -98,13 +96,3 @@ public:
         return path;
     }
 };
-
-std::string RandomDFS::abbr = "RDFS";
-std::string RandomDFS::name = "Random Depth-First Search";
-std::string RandomDFS::desc = "Random Direction DFS (RDFS) is a variation of Depth-First Search where, instead of visiting neighbors in a fixed order, the algorithm chooses a random order each time.";
-std::string RandomDFS::complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
-std::string RandomDFS::complete = "Sometimes";
-std::string RandomDFS::weighted = "No";
-std::string RandomDFS::optimal = "No (Random)";
-std::string RandomDFS::data_structure = "Stack / Recursion";
-std::string RandomDFS::expands = "Deep-first (Random)";

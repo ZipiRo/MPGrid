@@ -211,6 +211,9 @@ void InterfaceManager::Menubar(ApplicationContext &context)
         if (ImGui::MenuItem("Keybinds"))
             OpenPopup<ShowKeybindsPopup>(context);
 
+        if(ImGui::MenuItem("Documentation"))
+            StartHDocument(HDocumnets::Document.Get("Main"));
+
         ImGui::EndMenu();
     }
 

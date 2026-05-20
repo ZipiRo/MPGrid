@@ -340,6 +340,11 @@ void Mazer::SidebarInterface(ApplicationContext &context)
             context.interface.show_info_window = true;
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Show information");
+            
+        if(ImGui::Button("About Algorithm (A)"))
+            StartHDocument(HDocumnets::Document.Get(algorithms[using_algorithm].hdocument));
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Open current algorithm documentation web page");
     }
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);

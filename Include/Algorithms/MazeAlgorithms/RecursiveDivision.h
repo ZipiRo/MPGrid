@@ -11,8 +11,6 @@ private:
     Vector2i start;
 
 public:
-    static std::string abbr, name, desc, rules, complexity, maze_type, perfect_maze, use_random, growth_style, bias, data_structure;
-
     RD() {}
 
     void Init(const Grid &grid, Vector2i start) override
@@ -104,15 +102,3 @@ public:
         }
     }
 };
-
-std::string RD::abbr = "RD";
-std::string RD::name = "Recursive Division";
-std::string RD::desc = "Recursive Division (RD) is a maze generation algorithm that repeatedly splits an area with walls, places a single passage through each wall, and recursively applies the same process to the resulting sub-sections until the maze is fully partitioned.";
-std::string RD::rules = "1.Use a clear grid (no walls) for the algorithm to work";
-std::string RD::complexity = "Time Complexity: O(C * logC) \nSpace Complexity: O(logC) \nC - cells \nE - connections";
-std::string RD::maze_type = "Divide-and-conquer";
-std::string RD::perfect_maze = "Yes";
-std::string RD::use_random = "Yes (Wall/Door Placemant)";
-std::string RD::growth_style = "Spliting regions with walls";
-std::string RD::bias = "Structured";
-std::string RD::data_structure = "Stack (Regions)";

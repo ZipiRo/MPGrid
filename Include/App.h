@@ -12,11 +12,14 @@
 #include <map>
 #include <filesystem>
 #include <array>
+#include <string>
 
 #include <imgui.h>
 #include <imgui-SFML.h>
 
 using namespace sf;
+
+#include <HDocumnets.h>
 
 #include <Usings.h>
 #include <Grid/Grid.h>
@@ -111,6 +114,14 @@ bool LoadResources()
     if (!ResourceManager::LoadTexture("Map", "Resources/Textures/map.png")) return false;
     if (!ResourceManager::LoadTexture("Path", "Resources/Textures/path.png")) return false;
     if (!ResourceManager::LoadTexture("Maze", "Resources/Textures/maze.png")) return false;
+
+    if(HDocumnets::LoadDocument("Main", "Resources/Docs/index.html")) return false;
+    if(HDocumnets::LoadDocument("BFS_Algo", "Resources/Docs/bfs_algo.html")) return false;
+    if(HDocumnets::LoadDocument("DFS_Algo", "Resources/Docs/dfs_algo.html")) return false;
+    if(HDocumnets::LoadDocument("RDFS_Algo", "Resources/Docs/random_dfs_algo.html")) return false;
+    if(HDocumnets::LoadDocument("PRIM_Algo", "Resources/Docs/prim_algo.html")) return false;
+    if(HDocumnets::LoadDocument("RB_Algo", "Resources/Docs/recursive_bactracking_algo.html")) return false;
+    if(HDocumnets::LoadDocument("RD_Algo", "Resources/Docs/recursive_division_algo.html")) return false;
 
     return true;
 }

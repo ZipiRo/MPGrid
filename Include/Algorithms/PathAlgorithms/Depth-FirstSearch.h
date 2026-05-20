@@ -6,9 +6,7 @@ private:
     std::stack<Vector2i> stack;
     Vector2i start, end;
 
-public:    
-    static std::string abbr, name, desc, complexity, weighted, complete, optimal, data_structure, expands;
-
+public:
     DFS() {}
 
     void Init(const Grid &grid, Vector2i start, Vector2i end) override
@@ -96,13 +94,3 @@ public:
         return path;
     }
 };
-
-std::string DFS::abbr = "DFS";
-std::string DFS::name = "Depth-First Search";
-std::string DFS::desc = "Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along one branch before backtracking.";
-std::string DFS::complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
-std::string DFS::complete = "Sometimes";
-std::string DFS::weighted = "No";
-std::string DFS::optimal = "No";
-std::string DFS::data_structure = "Stack / Recursion";
-std::string DFS::expands = "Deep-first";

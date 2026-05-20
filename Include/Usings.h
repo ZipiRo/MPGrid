@@ -45,3 +45,9 @@ std::vector<std::string> GetStrFilesFrom(std::string directory, std::string exte
 }
 
 const std::vector<Vector2i> directions = {LEFT, DOWN, RIGHT, UP};
+
+void StartHDocument(std::string path)
+{
+    std::string command("start " + path);
+    system(command.c_str());
+}

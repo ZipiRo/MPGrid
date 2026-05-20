@@ -7,8 +7,6 @@ private:
     Vector2i start, end;
 
 public:
-    static std::string abbr, name, desc, complexity, weighted, complete, optimal, data_structure, expands;
-
     BFS() {}
 
     void Init(const Grid &grid, Vector2i start, Vector2i end) override
@@ -88,13 +86,3 @@ public:
         return path;
     }
 };
-
-std::string BFS::abbr = "BFS";
-std::string BFS::name = "Breadth-First Search";
-std::string BFS::desc = "Breadth-First Search (BFS) is a graph traversal algorithm that explores nodes level by level, visiting all neighbors of a node before moving deeper.";
-std::string BFS::complexity = "Time Complexity: O(C + E) \nSpace Complexity O(C) \nC - cells \nE - connections";
-std::string BFS::complete = "Yes";
-std::string BFS::weighted = "No";
-std::string BFS::optimal = "Yes (unweighted graphs)";
-std::string BFS::data_structure = "Queue";
-std::string BFS::expands = "Uniformly";
