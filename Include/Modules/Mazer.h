@@ -78,6 +78,7 @@ private:
         start_timer = 0.0f;
         step_timer = algo_step_delay;
 
+        algorithm = algorithms[using_algorithm].Get();
         algorithm->primary_color = theme.colors[MazePrimaryColor];
         algorithm->secondary_color = theme.colors[MazeSecondaryColor];
 

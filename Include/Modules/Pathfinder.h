@@ -125,6 +125,7 @@ private:
         start_timer = 0.0f;
         step_timer = algo_step_delay;
 
+        algorithm = algorithms[using_algorithm].Get();
         algorithm->explored_color = theme.colors[PathExploredColor];
         algorithm->frontier_color = theme.colors[PathFrontierColor];
         algorithm->backtrack_color = theme.colors[PathBacktrackColor];

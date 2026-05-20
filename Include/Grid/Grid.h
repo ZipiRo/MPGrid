@@ -91,7 +91,7 @@ public:
     {
         if (!InBounds(x, y)) return;
         grid[y][x] = Cell(type, Vector2i(x, y), color);
-        CountCellTypes();
+        // CountCellTypes();
     }
 
     void Fill(CellType type)
