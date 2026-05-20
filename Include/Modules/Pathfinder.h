@@ -202,6 +202,9 @@ public:
 
         if (Input::IsKeyDown(Keyboard::Key::T))
             RandomStartEnd(context.grid, context.grid_render.GetColorTheme());
+        
+        if (Input::IsKeyDown(Keyboard::Key::A))
+            StartHDocument(HDocumnets::Document.Get(algorithms[using_algorithm].hdocument));   
 
         if (Input::IsKeyDown(Keyboard::Key::Space))
             Run(context.grid_render.GetColorTheme());
