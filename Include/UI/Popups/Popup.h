@@ -15,3 +15,4 @@ public:
 #include "GridColorThemesPopup.h"
 #include "SetBackgroundPopup.h"
 #include "ShowKeybindsPopup.h"
+#include "SoundVolumePopup.h"

@@ -195,10 +195,13 @@ void InterfaceManager::Menubar(ApplicationContext &context)
         ImGui::EndMenu();
     }
 
-    if (ImGui::BeginMenu("View"))
+    if (ImGui::BeginMenu("Settings"))
     {
-        if (ImGui::MenuItem("SetBackgroundColor"))
+        if (ImGui::MenuItem("Background Color"))
             OpenPopup<SetBackgroundPopup>(context);
+
+        if(ImGui::MenuItem("Sound Volume"))
+            OpenPopup<SoundVolumePopup>(context);
 
         ImGui::EndMenu();
     }
