@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prim Maze Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="algo_style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Prim Maze Generator</h1>
+    </header>
+
+    <main>
+
+        <div class="section-title">How It Works</div>
+
+        <div class="section">
+
+            <p>
+                Prim is a maze generation algorithm that builds a maze by gradually expanding from a starting point.
+                It treats the grid like a graph and always connects the maze by choosing the cheapest (random) edge
+                that expands the frontier.
+            </p>
+            
+            <div class="grid-example">
+# # # # #
+# . # . # 
+# # # # #
+# . # . #
+# # # # #
+            </div>
+            
+            <p>
+                The maze grows outward like a “carving” process, always connecting new cells to the existing maze.
+            </p>
+
+            <div class="step">
+                1. Start with a grid full of walls.
+            </div>
+
+            <div class="step">
+                2. Pick a random starting cell and mark it as part of the maze.
+            </div>
+
+            <div class="step">
+                3. Add all walls adjacent to this cell into a frontier list.
+            </div>
+
+            <div class="step">
+                4. Randomly pick a wall from the frontier.
+            </div>
+
+            <div class="step">
+                5. If the wall connects a visited cell and an unvisited cell, carve a passage.
+            </div>
+
+            <div class="step">
+                6. Add the newly visited cell's walls to the frontier.
+            </div>
+
+            <div class="step">
+                7. Repeat until there are no more frontier walls.
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <strong>Type</strong><br>
+                    Maze Generation
+                </div>
+
+                <div class="stat">
+                    <strong>Structure</strong><br>
+                    Graph (Grid)
+                </div>
+
+                <div class="stat">
+                    <strong>Result</strong><br>
+                    Perfect Maze
+                </div>
+
+                <div class="stat">
+                    <strong>Randomness</strong><br>
+                    Medium
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-title">Video</div>
+
+        <div class="section">
+            <iframe 
+                src="https://www.youtube.com/embed/usNJMpgWemM" 
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+        <div class="section-title">Pseudo Code</div>
+
+        <div class="section">
+
+<pre><code>PrimMaze(grid)
+
+    start = random cell
+    mark start as part of maze
+
+    frontier = all walls around start
+
+    WHILE frontier is not empty
+
+        wall = random frontier wall
+        remove wall from frontier
+
+        IF wall connects visited cell and unvisited cell
+
+            remove wall (carve path)
+
+            mark new cell as visited
+
+            add neighboring walls of new cell to frontier
+
+    return maze</code></pre>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p>MPGrid - By ZipiRo</p>
+    </footer>
+
+</body>
+
+</html>

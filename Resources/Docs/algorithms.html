@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Algorithms</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            /* takes full row */
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px;
+
+            background: rgba(0, 0, 0, 0.05);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .card {
+            background: rgb(117, 117, 117);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 140px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: #1700c2;
+            color: rgb(208, 208, 208);
+        }
+
+        .large {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Algorithms</h1>
+    </header>
+
+    <main>
+
+        <div class="grid">
+            <div class="section-title">Pathfinding</div>
+
+            <a href="bfs_algo.html" class="card no-deco">
+                <h2>BFS</h2>
+            </a>
+            <a href="dfs_algo.html" class="card no-deco">
+                <h2>DFS</h2>
+            </a>
+            <a href="random_dfs_algo.html" class="card no-deco">
+                <h2>Random DFS</h2>
+            </a>
+
+            <div class="section-title">Maze Generation</div>
+
+            <a href="recursive_bactracking_algo.html" class="card no-deco">
+                <h2>Recursive Backtracking</h2>
+            </a>
+            <a href="recursive_division_algo.html" class="card no-deco">
+                <h2>Recursive Division</h2>
+            </a>
+            <a href="prim_algo.html" class="card no-deco">
+                <h2>Prim</h2>
+            </a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>MPGrid - By ZipiRo</p>
+    </footer>
+
+</body>
+
+</html>

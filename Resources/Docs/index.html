@@ -1,11 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MPGrid</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .card {
+            background: rgb(117, 117, 117);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 140px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: #1700c2;
+            color: rgb(208, 208, 208);
+        }
+
+        .large {
+            grid-column: span 2;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <header>
+        <h1>MPGrid</h1>
+    </header>
+
+    <main>
+        <div class="grid">
+            <a href="algorithms.html" class="card large no-deco">
+                <h2>Algorithms</h2>
+            </a>
+            <a href="howtouse.html" class="card no-deco">
+                <h2>How to Use</h2>
+            </a>
+            <a href="about.html" class="card no-deco">
+                <h2>About</h2>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>MPGrid - By ZipiRo</p>
+    </footer>
 </body>
+
 </html>

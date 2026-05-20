@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recursive Backtracking Maze</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="algo_style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Recursive Backtracking Maze Generator</h1>
+    </header>
+
+    <main>
+        <div class="section-title">How It Works</div>
+
+        <div class="section">
+
+            <p>
+                Recursive Backtracking is a depth-first maze generation algorithm.
+                It builds a maze by carving paths forward until it hits a dead end,
+                then backtracks and tries other directions.
+            </p>
+
+            <div class="grid-example">
+# # # # #
+# . # . # 
+# # . # #
+# . # . #
+# # # # #
+            </div>
+            
+            <p>
+                The algorithm behaves like a “snake” that keeps digging until it gets stuck,
+                then it goes back and tries a different direction.
+            </p>
+
+            <div class="step">
+                1. Start from a random cell.
+            </div>
+
+            <div class="step">
+                2. Mark the cell as visited.
+            </div>
+
+            <div class="step">
+                3. Randomly shuffle the four directions (up, down, left, right).
+            </div>
+
+            <div class="step">
+                4. For each direction, move to a neighboring cell if it is unvisited.
+            </div>
+
+            <div class="step">
+                5. Carve a path between current cell and next cell.
+            </div>
+
+            <div class="step">
+                6. Recursively repeat from the next cell.
+            </div>
+
+            <div class="step">
+                7. If no moves are possible, backtrack automatically.
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <strong>Type</strong><br>
+                    Maze Generation
+                </div>
+
+                <div class="stat">
+                    <strong>Structure</strong><br>
+                    DFS (Stack / Recursion)
+                </div>
+
+                <div class="stat">
+                    <strong>Result</strong><br>
+                    Perfect Maze
+                </div>
+
+                <div class="stat">
+                    <strong>Randomness</strong><br>
+                    High
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-title">Video</div>
+
+        <div class="section">
+            <iframe 
+                src="https://www.youtube.com/embed/x-HUp5lMq6I"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="section-title">Pseudo Code</div>
+
+        <div class="section">
+
+<pre><code>RecursiveBacktracking(cell)
+
+    mark cell as visited
+
+    directions = shuffle(up, down, left, right)
+
+    FOR each direction in directions
+
+        next = neighbor cell
+
+        IF next is inside grid AND not visited
+
+            remove wall between cell and next
+
+            RecursiveBacktracking(next)</code></pre>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>MPGrid - By ZipiRo</p>
+    </footer>
+
+</body>
+
+</html>

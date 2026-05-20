@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recursive Division Maze</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="algo_style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Recursive Division Maze Generator</h1>
+    </header>
+
+    <main>
+        <div class="section-title">How It Works</div>
+
+        <div class="section">
+
+            <p>
+                Recursive Division is a maze generation algorithm that works by repeatedly splitting the grid
+                with walls and adding openings (doors). It creates a structured, “room-like” maze instead of
+                a carving-style maze.
+            </p>
+            <div class="grid-example">
+# # # # # #
+# . # . . # 
+# # # . # #
+# . . . . #
+# # # # # #
+            </div>
+
+            <p>
+                Instead of carving paths, this algorithm builds walls first and then breaks them down with openings.
+            </p>
+
+            <div class="step">
+                1. Start with an empty open grid.
+            </div>
+
+            <div class="step">
+                2. Choose whether to divide horizontally or vertically.
+            </div>
+
+            <div class="step">
+                3. Draw a wall across the selected direction.
+            </div>
+
+            <div class="step">
+                4. Create one or more random gaps (doors) in the wall.
+            </div>
+
+            <div class="step">
+                5. Recursively apply the same process to the resulting sub-areas.
+            </div>
+
+            <div class="step">
+                6. Stop when the area is too small to divide further.
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <strong>Type</strong><br>
+                    Maze Generation
+                </div>
+
+                <div class="stat">
+                    <strong>Structure</strong><br>
+                    Recursive Partitioning
+                </div>
+
+                <div class="stat">
+                    <strong>Result</strong><br>
+                    Structured Maze
+                </div>
+
+                <div class="stat">
+                    <strong>Style</strong><br>
+                    Room-based / Grid-like
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-title">Video</div>
+
+        <div class="section">
+            <iframe
+                src="https://www.youtube.com/embed/0INrKi_KKRA"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="section-title">Pseudo Code</div>
+
+        <div class="section">
+
+<pre><code>RecursiveDivision(x, y, width, height)
+
+    IF width <= 2 OR height <= 2
+        RETURN
+
+    IF width > height
+        divide vertically
+    ELSE
+        divide horizontally
+
+    draw wall
+
+    create random passage in wall
+
+    RecursiveDivision(left area)
+    RecursiveDivision(right area)</code></pre>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>MPGrid - By ZipiRo</p>
+    </footer>
+
+</body>
+
+</html>

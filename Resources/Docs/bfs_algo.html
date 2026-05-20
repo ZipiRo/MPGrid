@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="algo_style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Breadth-First Search</h1>
+    </header>
+
+    <main>
+        <div class="section-title">How It Works</div>
+
+        <div class="section">
+
+            <p>
+                Breadth-First Search (BFS) is a pathfinding algorithm that explores
+                nodes level by level.
+            </p>
+
+            <div class="grid-example">
+S . . #
+# # . #
+. . . E
+            </div>
+
+            <div class="step">
+                1. Start from the starting node.
+            </div>
+
+            <div class="step">
+                2. Add the node to a queue.
+            </div>
+
+            <div class="step">
+                3. Visit all neighboring nodes.
+            </div>
+
+            <div class="step">
+                4. Add unvisited neighbors to the queue.
+            </div>
+
+            <div class="step">
+                5. Repeat until the end node is found.
+            </div>
+
+            <div class="step">
+                6. Because BFS expands evenly, it always finds the shortest path in an unweighted grid.
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <strong>Complete</strong><br>
+                    Yes
+                </div>
+
+                <div class="stat">
+                    <strong>Optimal</strong><br>
+                    Yes
+                </div>
+
+                <div class="stat">
+                    <strong>Time Complexity</strong><br>
+                    O(C + E)
+                </div>
+
+                <div class="stat">
+                    <strong>Data Structure</strong><br>
+                    Queue
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-title">Video</div>
+
+        <div class="section">
+            <iframe 
+                src="https://youtube.com/embed/qV76pggxmMI" 
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+        <div class="section-title">Pseudo Code</div>
+
+        <div class="section">
+<pre><code>BFS(grid, start, end)
+
+    CREATE queue
+    CREATE visited set
+
+    ADD start TO queue
+    MARK start AS visited
+
+    WHILE queue IS NOT empty
+
+        current = REMOVE first element FROM queue
+
+        IF current = end
+            RETURN path found
+
+        FOR EACH neighbor OF current
+
+            IF neighbor IS inside grid
+            AND neighbor IS NOT a wall
+            AND neighbor IS NOT visited
+
+                MARK neighbor AS visited
+                ADD neighbor TO queue
+
+    RETURN no path found
+</code></pre>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>MPGrid - By ZipiRo</p>
+    </footer>
+</body>
+
+</html>
