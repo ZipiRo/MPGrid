@@ -1,7 +1,7 @@
 class LoadGridPopup : public Popup
 {
 private:
-    char savefile_input[100];
+    char loadfile_input[100];
     std::vector<std::string> files;
 
 public:
@@ -15,12 +15,12 @@ public:
         ImGui::SetWindowSize(ImVec2(335, 300), ImGuiCond_Always);
 
         ImGui::Text(std::string("File Name (" + GridSaveFileExt + ')').c_str());
-        ImGui::InputText("##FileName", savefile_input, 100);
+        ImGui::InputText("##FileName", loadfile_input, 100);
         ImGui::SameLine();
         if ((ImGui::Button("Load (Enter)") || ImGui::IsKeyDown(ImGuiKey::ImGuiKey_Enter)) &&
-            !std::string(savefile_input).empty())
+            !std::string(loadfile_input).empty())
         {
-            if (!context.grid.Load(savefile_input))
+            if (!context.grid.Load(loadfile_input))
                 return;
             context.grid_render.Build(context.grid.GetSize());
             context.grid_cursor.Init(context.grid_render.GetCellSize());
@@ -36,11 +36,11 @@ public:
         for (auto &file : files)
         {
             if (ImGui::Selectable(file.c_str()))
-                strcpy(savefile_input, file.c_str());
+                strcpy(loadfile_input, file.c_str());
 
             if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
             {
-                if (!context.grid.Load(savefile_input))
+                if (!context.grid.Load(loadfile_input))
                     return;
                 context.grid_render.Build(context.grid.GetSize());
                 context.grid_cursor.Init(context.grid_render.GetCellSize());
