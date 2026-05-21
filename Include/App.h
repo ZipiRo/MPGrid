@@ -155,6 +155,8 @@ void App::Start()
     interface.SetSidebarWindow(window.getSize().x * 0.2f);
 
     ChangeModule(using_module);
+
+    ui_manager.OpenPopup<OnStartPopup>(context);
 }
 
 void App::Events(const sf::Event &event)

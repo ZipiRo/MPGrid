@@ -16,3 +16,4 @@ public:
 #include "SetBackgroundPopup.h"
 #include "ShowKeybindsPopup.h"
 #include "SoundVolumePopup.h"
+#include "OnStartPopup.h"

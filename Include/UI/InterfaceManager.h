@@ -88,13 +88,6 @@ private:
         ImGui::End();
     }
 
-    template <typename T>
-    void OpenPopup(ApplicationContext &context)
-    {
-        popup = std::make_unique<T>();
-        popup->Init(context);
-    }
-
     bool ShowPopup(ApplicationContext &context)
     {
         if (!popup)
@@ -142,6 +135,13 @@ private:
     }
 
 public:
+    template <typename T>
+    void OpenPopup(ApplicationContext &context)
+    {
+        popup = std::make_unique<T>();
+        popup->Init(context);
+    }
+    
     void Update(ApplicationContext &context, Module &active)
     {
         context.interface.popup_open = ShowPopup(context);
