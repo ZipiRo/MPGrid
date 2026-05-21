@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MPGrid</title>
     <link rel="stylesheet" href="style.css">
     <style>
@@ -38,7 +38,7 @@
 
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            
+
             gap: 10px;
         }
 
@@ -47,7 +47,7 @@
             width: 100%;
             aspect-ratio: 16 / 9;
             transition: 0.2s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .grid-images img:hover {
@@ -66,7 +66,7 @@
             border-radius: 20px;
             padding: 25px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .controls-category h2 {
@@ -83,7 +83,7 @@
             padding: 12px 15px;
             margin-bottom: 10px;
 
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
 
             transition: 0.15s ease;
@@ -91,7 +91,7 @@
 
         .control-row:hover {
             transform: translateX(5px);
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .key {
@@ -105,7 +105,7 @@
             min-width: 110px;
             text-align: center;
 
-            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25);
+            box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
         }
 
         .action {
@@ -123,13 +123,13 @@
         }
 
         .tutorial-card {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             padding: 30px;
             border-radius: 20px;
 
             backdrop-filter: blur(8px);
 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .tutorial-card h2 {
@@ -148,14 +148,14 @@
 
             border-radius: 14px;
 
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
 
             transition: 0.15s ease;
         }
 
         .step:hover {
             transform: translateX(5px);
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .step-number {
@@ -185,7 +185,7 @@
 
             border-radius: 20px;
 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .video-container iframe {
@@ -193,7 +193,7 @@
             height: 500px;
             display: block;
         }
-        
+
         .interface-section {
             display: flex;
             flex-direction: column;
@@ -202,7 +202,7 @@
 
         .ui-intro {
             color: white;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
             padding: 18px 20px;
             border-radius: 15px;
             line-height: 1.5;
@@ -216,19 +216,19 @@
         }
 
         .ui-card {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             padding: 20px;
             border-radius: 18px;
 
             backdrop-filter: blur(8px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 
             transition: 0.15s ease;
         }
 
         .ui-card:hover {
             transform: translateY(-3px);
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .ui-card h2 {
@@ -280,6 +280,7 @@
             .video-container iframe {
                 height: 250px;
             }
+
             .ui-grid {
                 grid-template-columns: 1fr;
             }
@@ -300,9 +301,9 @@
         <div class="section-title">MPGrid</div>
         <div class="section">
             <p>
-                MPGrid is an interactive pathfinding and maze generation visualizer 
+                MPGrid is an interactive pathfinding and maze generation visualizer
                 where you can create grids, place walls, generate mazes, and watch algorithms solve them step by step.
-            </p>   
+            </p>
             <div class="grid-images">
                 <img src="Images/Image_01.png" alt="Image_01">
                 <img src="Images/Image_02.png" alt="Image_02">
@@ -420,15 +421,16 @@
         </div>
 
         <div class="section-title">Interface Overview</div>
-        <div class="section interface-section">    
+        <div class="section interface-section">
             <div class="grid-images">
                 <img src="Images/Image_05.png" alt="Image_05">
-                <img src="Images/Imgae_06.png" alt="Imgae_06">
+                <img src="Images/Image_06.png" alt="Imgae_06">
             </div>
 
             <div class="ui-intro">
                 The MPGrid interface is divided into five main areas:
-                <b>Menu Bar</b>, <b>Sidebar</b>, <b>Grid</b>, <b>Bottom Bar</b>, <b>Module Settings Window</b>, <b>Module Info Window</b> and <b>Popup Windows</b>.
+                <b>Menu Bar</b>, <b>Sidebar</b>, <b>Grid</b>, <b>Bottom Bar</b>, <b>Module Settings Window</b>,
+                <b>Module Info Window</b> and <b>Popup Windows</b>.
             </div>
 
             <div class="ui-grid">
@@ -493,10 +495,10 @@
                         <li>Elapsed Time</li>
                         <li>Path Length</li>
                         <li>Visited Cells Count</li>
-                        <li>Carved/Placed Walls Count</li>                        
+                        <li>Carved/Placed Walls Count</li>
                     </ul>
                 </div>
-                
+
                 <div class="ui-card">
                     <h2>Module Settings Window</h2>
                     <p>
@@ -504,7 +506,7 @@
                     </p>
 
                     <ul>
-                        <li>Custom Colors</li>                        
+                        <li>Custom Colors</li>
                     </ul>
                 </div>
 
@@ -535,14 +537,15 @@
                         Select the <b>Topografy Module</b> using the <b>1</b> key or from the <b>Right Module List</b>.
                     </div>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-text">
-                        Select one of the tools, press <b>B</b> or select <b>Brush</b>, press <b>G</b> or select <b>Bucket</b>, press <b>S</b> or select <b>Rectangle</b>,  from the <b>Sidebar</b>.
+                        Select one of the tools, press <b>B</b> or select <b>Brush</b>, press <b>G</b> or select
+                        <b>Bucket</b>, press <b>S</b> or select <b>Rectangle</b>, from the <b>Sidebar</b>.
                     </div>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-text">
@@ -553,16 +556,14 @@
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-text">
-                        Press <b>C</b> or select <b>Clear</b> from <b>Sidebar</b> to clear the grid or <b>F</b> or select <b>Fill</b> to fill the grid.
+                        Press <b>C</b> or select <b>Clear</b> from <b>Sidebar</b> to clear the grid or <b>F</b> or
+                        select <b>Fill</b> to fill the grid.
                     </div>
                 </div>
             </div>
 
             <div class="video-container">
-                <iframe 
-                    src="Videos/Topografy.mp4"
-                    frameborder="0"
-                    allowfullscreen>
+                <iframe src="Videos/Topografy.mp4" frameborder="0" allowfullscreen>
                 </iframe>
             </div>
         </div>
@@ -582,14 +583,16 @@
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-text">
-                        Select the <b>Pathfinding Module</b> using the <b>2</b> key or from the <b>Right Module List</b>.
+                        Select the <b>Pathfinding Module</b> using the <b>2</b> key or from the <b>Right Module
+                            List</b>.
                     </div>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-text">
-                        Place the <b>Start</b> cell and the <b>End</b> cell using <b>LMB</b> or remove them with <b>RMB</b>.
+                        Place the <b>Start</b> cell and the <b>End</b> cell using <b>LMB</b> or remove them with
+                        <b>RMB</b>.
                     </div>
                 </div>
 
@@ -616,10 +619,7 @@
             </div>
 
             <div class="video-container">
-                <iframe 
-                    src="Videos/Pathfinding.mp4"
-                    frameborder="0"
-                    allowfullscreen>
+                <iframe src="Videos/Pathfinding.mp4" frameborder="0" allowfullscreen>
                 </iframe>
             </div>
         </div>
@@ -636,14 +636,15 @@
                         Select the <b>Mazer Module</b> using the <b>3</b> key or from the <b>Right Module List</b>.
                     </div>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-text">
-                        Use <b>F</b> or select <b>Fill</b> from <b>Sidebar</b> to fill the grid with walls or <b>C</b> or select <b>Clear</b> from <b>Sidebar</b>  to clear the whole grid.
+                        Use <b>F</b> or select <b>Fill</b> from <b>Sidebar</b> to fill the grid with walls or <b>C</b>
+                        or select <b>Clear</b> from <b>Sidebar</b> to clear the whole grid.
                     </div>
                 </div>
-                
+
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-text">
@@ -654,7 +655,8 @@
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-text">
-                        Choose a maze generator algorithm with <b>Ctrl + Mouse Wheel</b> or select from the <b>Sidebar</b>
+                        Choose a maze generator algorithm with <b>Ctrl + Mouse Wheel</b> or select from the
+                        <b>Sidebar</b>
                     </div>
                 </div>
 
@@ -674,10 +676,7 @@
             </div>
 
             <div class="video-container">
-                <iframe 
-                    src="Videos/Mazer.mp4"
-                    frameborder="0"
-                    allowfullscreen>
+                <iframe src="Videos/Mazer.mp4" frameborder="0" allowfullscreen>
                 </iframe>
             </div>
         </div>
@@ -693,13 +692,14 @@
         </div>
     </a>
 </body>
-    <script>
-        let images = document.querySelectorAll("img");
+<script>
+    let images = document.querySelectorAll("img");
 
-        images.forEach(img => {
-            img.onclick = () => {
-                window.open(img.src, "_blank");
-            };
-        });
-    </script>
+    images.forEach(img => {
+        img.onclick = () => {
+            window.open(img.src, "_blank");
+        };
+    });
+</script>
+
 </html>

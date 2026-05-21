@@ -27,15 +27,15 @@
                 It treats the grid like a graph and always connects the maze by choosing the cheapest (random) edge
                 that expands the frontier.
             </p>
-            
+
             <div class="grid-example">
-# # # # #
-# . # . # 
-# # # # #
-# . # . #
-# # # # #
+                # # # # #
+                # . # . #
+                # # # # #
+                # . # . #
+                # # # # #
             </div>
-            
+
             <p>
                 The maze grows outward like a “carving” process, always connecting new cells to the existing maze.
             </p>
@@ -92,21 +92,23 @@
 
         </div>
 
+        <div class="section-title">Maze Preview</div>
+        <div class="section preview-section">
+            <img src="Images/Image_09.png" alt="Image_09">
+        </div>
+
         <div class="section-title">Video</div>
 
         <div class="section">
-            <iframe 
-                src="Videos/Prim.mp4" 
-                allowfullscreen>
+            <iframe src="Videos/Prim.mp4" allowfullscreen>
             </iframe>
-
         </div>
 
         <div class="section-title">Pseudo Code</div>
 
         <div class="section">
 
-<pre><code>PrimMaze(grid)
+            <pre><code>PrimMaze(grid)
 
     start = random cell
     mark start as part of maze
