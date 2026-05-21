@@ -5,6 +5,11 @@ private:
     std::vector<std::string> files;
 
 public:
+    void Init(ApplicationContext &context) override
+    {
+        files = GetStrFilesFrom(GridSaveFileDir, GridSaveFileExt);
+    }
+
     void Interface(ApplicationContext &context) override
     {
         ImGui::SetWindowSize(ImVec2(335, 300), ImGuiCond_Always);
