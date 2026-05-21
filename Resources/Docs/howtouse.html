@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MPGrid</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 12px;
+
+            background: rgba(0, 0, 0, 0.08);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .section {
+            font-size: 15px;
+            font-weight: normal;
+            margin-top: 10px;
+            padding: 18px;
+
+            background: rgba(0, 0, 0, 0.08);
+            color: white;
+            border-radius: 12px;
+
+            line-height: 1.7;
+        }
+
+        .grid-images {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            
+            gap: 10px;
+        }
+
+        .grid-images img {
+            border-radius: 10px;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            transition: 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .grid-images img:hover {
+            cursor: pointer;
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .controls-category {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .controls-category h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 12px 15px;
+            margin-bottom: 10px;
+
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+
+            transition: 0.15s ease;
+        }
+
+        .control-row:hover {
+            transform: translateX(5px);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .key {
+            background: #2e2e2e;
+            color: white;
+
+            padding: 8px 14px;
+            border-radius: 10px;
+
+            font-weight: bold;
+            min-width: 110px;
+            text-align: center;
+
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25);
+        }
+
+        .action {
+            color: white;
+            opacity: 0.9;
+            text-align: right;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        .tutorial-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .tutorial-card {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 20px;
+
+            backdrop-filter: blur(8px);
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .tutorial-card h2 {
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            margin-bottom: 18px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: rgba(255,255,255,0.05);
+
+            transition: 0.15s ease;
+        }
+
+        .step:hover {
+            transform: translateX(5px);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .step-number {
+            min-width: 40px;
+            height: 40px;
+
+            border-radius: 100%;
+
+            background: #1700c2;
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-weight: bold;
+        }
+
+        .step-text {
+            color: white;
+            line-height: 1.5;
+        }
+
+        .video-container {
+            width: 100%;
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 500px;
+            display: block;
+        }
+        
+        .interface-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ui-intro {
+            color: white;
+            background: rgba(255,255,255,0.06);
+            padding: 18px 20px;
+            border-radius: 15px;
+            line-height: 1.5;
+            backdrop-filter: blur(6px);
+        }
+
+        .ui-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .ui-card {
+            background: rgba(255,255,255,0.08);
+            padding: 20px;
+            border-radius: 18px;
+
+            backdrop-filter: blur(8px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+
+            transition: 0.15s ease;
+        }
+
+        .ui-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .ui-card h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .ui-card p {
+            color: white;
+            opacity: 0.85;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .ui-card ul {
+            color: white;
+            opacity: 0.9;
+            padding-left: 18px;
+        }
+
+        .large-card {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 600px) {
+            .grid-images {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .control-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .action {
+                text-align: left;
+                margin-left: 0;
+            }
+
+            .key {
+                min-width: auto;
+            }
+
+            .step {
+                align-items: flex-start;
+            }
+
+            .video-container iframe {
+                height: 250px;
+            }
+            .ui-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .large-card {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>How To Use</h1>
+    </header>
+
+    <main>
+        <div class="section-title">MPGrid</div>
+        <div class="section">
+            <p>
+                MPGrid is an interactive pathfinding and maze generation visualizer 
+                where you can create grids, place walls, generate mazes, and watch algorithms solve them step by step.
+            </p>   
+            <div class="grid-images">
+                <img src="Images/Image_01.png" alt="Image_01">
+                <img src="Images/Image_02.png" alt="Image_02">
+                <img src="Images/Image_03.png" alt="Image_03">
+            </div>
+        </div>
+
+        <div class="section-title">Controls</div>
+        <div class="section controls-section">
+            <div class="controls-category">
+                <h2>Mouse Controls</h2>
+
+                <div class="control-row">
+                    <span class="key">LMB</span>
+                    <span class="action">Place</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">RMB</span>
+                    <span class="action">Remove</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">Ctrl + Wheel</span>
+                    <span class="action">Switch algorithm</span>
+                </div>
+            </div>
+
+            <div class="controls-category">
+                <h2>Interface Controls</h2>
+
+                <div class="control-row">
+                    <span class="key">LShift</span>
+                    <span class="action">Show module settings</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">I</span>
+                    <span class="action">Show module info</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">Esc</span>
+                    <span class="action">Close windows/popups</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">Tab</span>
+                    <span class="action">Hide sidebar</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">H</span>
+                    <span class="action">Hide interface</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">A</span>
+                    <span class="action">Open algorithm documentation</span>
+                </div>
+            </div>
+
+            <div class="controls-category">
+                <h2>Algorithm Controls</h2>
+
+                <div class="control-row">
+                    <span class="key">Space</span>
+                    <span class="action">Start algorithm</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">P</span>
+                    <span class="action">Pause / Play algorithm</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">T</span>
+                    <span class="action">Random algorithm positions</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">F</span>
+                    <span class="action">Fill grid</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">C</span>
+                    <span class="action">Clear grid</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">R</span>
+                    <span class="action">Reset algorithm/grid</span>
+                </div>
+            </div>
+
+            <div class="controls-category">
+                <h2>Modules</h2>
+
+                <div class="control-row">
+                    <span class="key">1</span>
+                    <span class="action">Topography module</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">2</span>
+                    <span class="action">Pathfinding module</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="key">3</span>
+                    <span class="action">Maze generator module</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Interface Overview</div>
+        <div class="section interface-section">    
+            <div class="grid-images">
+                <img src="Images/Image_05.png" alt="Image_05">
+                <img src="Images/Imgae_06.png" alt="Imgae_06">
+            </div>
+
+            <div class="ui-intro">
+                The MPGrid interface is divided into five main areas:
+                <b>Menu Bar</b>, <b>Sidebar</b>, <b>Grid</b>, <b>Bottom Bar</b>, <b>Module Settings Window</b>, <b>Module Info Window</b> and <b>Popup Windows</b>.
+            </div>
+
+            <div class="ui-grid">
+
+                <div class="ui-card">
+                    <h2>Menu Bar</h2>
+                    <p>
+                        The top menu contains grouped dropdown menus used for configuration and file actions.
+                    </p>
+
+                    <ul>
+                        <li><b>Grid:</b> resize, save, load, theme switch</li>
+                        <li><b>Settings:</b> background color, sound volume</li>
+                        <li><b>Help:</b> keybinds and documentation</li>
+                    </ul>
+                </div>
+
+                <div class="ui-card">
+                    <h2>Sidebar</h2>
+                    <p>
+                        The sidebar is used to select modules and algorithms, and control execution tools.
+                    </p>
+
+                    <ul>
+                        <li>Pathfinding module</li>
+                        <li>Maze generator module</li>
+                        <li>Topography module</li>
+                    </ul>
+                </div>
+
+                <div class="ui-card">
+                    <h2>Grid (Main View)</h2>
+                    <p>
+                        This is the core workspace where all algorithms run.
+                    </p>
+
+                    <ul>
+                        <li>Place and remove walls</li>
+                        <li>Set start and end nodes</li>
+                        <li>Watch real-time visualization</li>
+                    </ul>
+                </div>
+
+                <div class="ui-card">
+                    <h2>Bottom Bar</h2>
+                    <p>
+                        Displays real-time performance and simulation data.
+                    </p>
+
+                    <ul>
+                        <li>FPS counter</li>
+                    </ul>
+                </div>
+
+                <div class="ui-card">
+                    <h2>Module Info Window</h2>
+                    <p>
+                        Displays information about the current running algorithm.
+                    </p>
+
+                    <ul>
+                        <li>Elapsed Time</li>
+                        <li>Path Length</li>
+                        <li>Visited Cells Count</li>
+                        <li>Carved/Placed Walls Count</li>                        
+                    </ul>
+                </div>
+                
+                <div class="ui-card">
+                    <h2>Module Settings Window</h2>
+                    <p>
+                        Settings for the current active module.
+                    </p>
+
+                    <ul>
+                        <li>Custom Colors</li>                        
+                    </ul>
+                </div>
+
+                <div class="ui-card large-card">
+                    <h2>Popup System</h2>
+                    <p>
+                        All configuration is handled through popup windows instead of separate pages.
+                    </p>
+
+                    <ul>
+                        <li>Grid (resize, save/load, theme)</li>
+                        <li>Settings (background color, sound volume)</li>
+                        <li>Help (keybinds, documentation)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Topogragy Module</div>
+        <div class="section tutorial-section">
+            <div class="tutorial-card">
+
+                <h2>How To Draw</h2>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        Select the <b>Topografy Module</b> using the <b>1</b> key or from the <b>Right Module List</b>.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        Select one of the tools, press <b>B</b> or select <b>Brush</b>, press <b>G</b> or select <b>Bucket</b>, press <b>S</b> or select <b>Rectangle</b>,  from the <b>Sidebar</b>.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        Place the <b>Walls</b> using <b>LMB</b> or remove with <b>RMB</b>.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">
+                        Press <b>C</b> or select <b>Clear</b> from <b>Sidebar</b> to clear the grid or <b>F</b> or select <b>Fill</b> to fill the grid.
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <iframe 
+                    src="Videos/Topografy.mp4"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        <div class="section-title">Pathfinding</div>
+        <div class="section tutorial-section">
+            <div class="tutorial-card">
+
+                <h2>How To Use Pathfinding</h2>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        Draw walls using <b>Topography Module</b> or Generate Mazes using <b>Mazer Module</b>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        Select the <b>Pathfinding Module</b> using the <b>2</b> key or from the <b>Right Module List</b>.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        Place the <b>Start</b> cell and the <b>End</b> cell using <b>LMB</b> or remove them with <b>RMB</b>.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        Choose a pathfinding algorithm with <b>Ctrl + Mouse Wheel</b> or select from the <b>Sidebar</b>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">
+                        Press <b>Space</b> or select <b>Start</b> from <b>Sidebar</b> to start the visualization.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-text">
+                        Press <b>R</b> or select <b>Reset</b> from <b>Sidebar</b> to reset the algorithm.
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <iframe 
+                    src="Videos/Pathfinding.mp4"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <div class="section-title">Maze Generating</div>
+        <div class="section tutorial-section">
+            <div class="tutorial-card">
+
+                <h2>How To Use Mazer</h2>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        Select the <b>Mazer Module</b> using the <b>3</b> key or from the <b>Right Module List</b>.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        Use <b>F</b> or select <b>Fill</b> from <b>Sidebar</b> to fill the grid with walls or <b>C</b> or select <b>Clear</b> from <b>Sidebar</b>  to clear the whole grid.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        Place the <b>Start</b> cell using <b>LMB</b> or remove with <b>RMB</b>.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">
+                        Choose a maze generator algorithm with <b>Ctrl + Mouse Wheel</b> or select from the <b>Sidebar</b>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-text">
+                        Press <b>Space</b> or select <b>Start</b> from <b>Sidebar</b> to start the visualization.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-text">
+                        Press <b>R</b> or select <b>Reset</b> from <b>Sidebar</b> to reset the algorithm.
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <iframe 
+                    src="Videos/Mazer.mp4"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>MPGrid - By ZipiRo</p>
+    </footer>
+
+    <a href="index.html" class="no-deco">
+        <div class="home-button">
+            Home
+        </div>
+    </a>
+</body>
+<script>
+    let images = document.querySelectorAll("img");
+
+    images.forEach(img => {
+        img.onclick = () => {
+            window.open(img.src, "_blank");
+        };
+    });
+</script>
+</html>

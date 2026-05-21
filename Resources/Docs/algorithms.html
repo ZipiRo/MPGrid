@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Algorithms</title>
     <link rel="stylesheet" href="style.css">
     <style>
@@ -52,6 +53,12 @@
 
         .large {
             grid-column: span 2;
+        }
+
+        @media (max-width: 600px) {
+            .large {
+                grid-column: span 1;
+            }
         }
     </style>
 </head>
