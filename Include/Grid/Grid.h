@@ -33,21 +33,6 @@ private:
     int wall_count = 0;
     int room_count = 0;
 
-    void CountCellTypes()
-    {
-        wall_count = 0;
-        room_count = 0;
-
-        for(const auto &row : grid)
-        {
-            for(const auto &cell : row)
-            {
-                if(cell.type == CELL_WALL) wall_count++;
-                else if(cell.type == CELL_NONE || cell.type == CELL_ROOM) room_count++;
-            }
-        }
-    }
-
 public:
     Grid()
     {
@@ -90,8 +75,16 @@ public:
     void SetCell(int x, int y, CellType type, Color color = Color::Magenta)
     {
         if (!InBounds(x, y)) return;
+
+        if(Get(x, y).type != CELL_WALL && type == CELL_WALL)
+            wall_count++;
+
+        if(Get(x, y).type == CELL_WALL && type != CELL_WALL)
+            wall_count--;
+
+        room_count = (size.x * size.y) - wall_count; 
+
         grid[y][x] = Cell(type, Vector2i(x, y), color);
-        // CountCellTypes();
     }
 
     void Fill(CellType type)
