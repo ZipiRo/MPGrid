@@ -217,6 +217,9 @@ void InterfaceManager::Menubar(ApplicationContext &context)
         ImGui::EndMenu();
     }
 
+    if(ImGui::MenuItem("Exit"))
+        Application::Close();
+
     ImGui::EndMainMenuBar();
 }
 

@@ -72,9 +72,9 @@ private:
     }
 
 public:
-    App() : Application(sf::Vector2u(1600, 900), "MPGrid")
+    App() : Application(sf::Vector2u(1920, 1080), "MPGrid", sf::Style::Close, sf::State::Fullscreen)
     {
-        window.setFramerateLimit(999999);
+        GetWindow().setFramerateLimit(999999);
     }
 
     Grid grid;
@@ -87,7 +87,7 @@ public:
     int using_module = 0;
 
     ApplicationContext context{
-        .window = window,
+        .window = GetWindow(),
         .grid = grid,
         .grid_render = grid_render,
         .grid_cursor = grid_cursor,
@@ -128,15 +128,15 @@ bool LoadResources()
 
 void App::Start()
 {
-    if (!ImGui::SFML::Init(window))
+    if (!LoadResources())
     {
-        window.close();
+        Close();
         return;
     }
 
-    if (!LoadResources())
+    if (!ImGui::SFML::Init(GetWindow()))
     {
-        window.close();
+        Close();
         return;
     }
 
@@ -144,15 +144,15 @@ void App::Start()
     background = Color::Black;
 
     grid.Create(20, 20);
-    grid_render.SetMaxLength(Vector2f(window.getSize().y - 70, window.getSize().y - 70));
+    grid_render.SetMaxLength(Vector2f(GetWindowSize().y - 70, GetWindowSize().y - 70));
     grid_render.Build(grid.GetSize());
-    grid_render.SetPosition(Vector2f(window.getSize().x / 2 - grid_render.GetLength().x / 2, window.getSize().y / 2 - grid_render.GetLength().y / 2));
+    grid_render.SetPosition(Vector2f(GetWindowSize().x / 2 - grid_render.GetLength().x / 2, GetWindowSize().y / 2 - grid_render.GetLength().y / 2));
     grid_cursor.Init(grid_render.GetCellSize());
 
-    interface.SetSettingsWindow(Vector2f(window.getSize().x * 0.4f, window.getSize().y * 0.5f));
+    interface.SetSettingsWindow(Vector2f(GetWindowSize().x * 0.4f, GetWindowSize().y * 0.5f));
     interface.SetModulesbar(Vector2f(10, 30));
-    interface.SetInfoWindow(Vector2f(window.getSize().x * 0.2f, window.getSize().y * 0.4f)); 
-    interface.SetSidebarWindow(window.getSize().x * 0.2f);
+    interface.SetInfoWindow(Vector2f(GetWindowSize().x * 0.2f, GetWindowSize().y * 0.4f)); 
+    interface.SetSidebarWindow(GetWindowSize().x * 0.2f);
 
     ChangeModule(using_module);
 
@@ -161,12 +161,12 @@ void App::Start()
 
 void App::Events(const sf::Event &event)
 {
-    ImGui::SFML::ProcessEvent(window, event);
+    ImGui::SFML::ProcessEvent(GetWindow(), event);
 }
 
 void App::Update(float delta_time)
 {
-    ImGui::SFML::Update(window, seconds(delta_time));
+    ImGui::SFML::Update(GetWindow(), seconds(delta_time));
     context.delta_time = delta_time;
 
     CheckModuleChange();
@@ -181,11 +181,11 @@ void App::Update(float delta_time)
 
 void App::DrawCanvas()
 {
-    grid_render.Draw(window);
-    grid_cursor.Draw(window, grid_render);
+    grid_render.Draw(GetWindow());
+    grid_cursor.Draw(GetWindow(), grid_render);
     module->Draw(context);
 
-    ImGui::SFML::Render(window);
+    ImGui::SFML::Render(GetWindow());
 }
 void App::End()
 {
