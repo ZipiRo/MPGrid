@@ -72,7 +72,7 @@ private:
     }
 
 public:
-    App() : Application(sf::Vector2u(1920, 1080), "MPGrid", sf::Style::Close, sf::State::Fullscreen)
+    App() : Application(sf::Vector2u(1920, 1080), "MPGrid", sf::Style::None, sf::State::Windowed)
     {
         GetWindow().setFramerateLimit(999999);
     }
